@@ -161,9 +161,13 @@
     <div class="setup-step">
       <h3>1. Installazione</h3>
       <app-code-block
-        [code]="'ng add @ngrx/store\nng add @ngrx/effects\nng add @ngrx/store-devtools'"
+        [code]="installCode"
         language="typescript"
       />
+      <div class="note-box">
+        <strong>⚠️ Nota per Angular 21+:</strong>
+        <p>NgRx 20.x richiede Angular 20 come peer dependency. Per Angular 21, usa <code>--legacy-peer-deps</code> o crea un file <code>.npmrc</code> con <code>legacy-peer-deps=true</code></p>
+      </div>
     </div>
     <div class="setup-step">
       <h3>2. Configurazione</h3>

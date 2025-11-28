@@ -157,6 +157,19 @@ export class CounterComponent {
   }
 }`;
 
+  installCode = `# Installazione base
+npm install @ngrx/store @ngrx/store-devtools --legacy-peer-deps
+
+# Oppure con ng add (raccomandato)
+ng add @ngrx/store --legacy-peer-deps
+ng add @ngrx/store-devtools --legacy-peer-deps
+
+# Per Angular 21+, crea .npmrc nella root:
+echo "legacy-peer-deps=true" > .npmrc
+
+# Poi installa normalmente:
+npm install @ngrx/store @ngrx/store-devtools`;
+
   setupCode = `// app.config.ts
 import { ApplicationConfig } from '@angular/core';
 import { provideStore } from '@ngrx/store';
