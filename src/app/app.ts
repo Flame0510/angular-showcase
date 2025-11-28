@@ -10,5 +10,5 @@ import { BouncingLogo } from './bouncing-logo/bouncing-logo';
   styleUrl: './app.scss',
 })
 export class App {
-  protected readonly title = signal('corso-34-angular');
+  protected readonly title = signal('angular-showroom');
 }

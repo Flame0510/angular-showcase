@@ -39,35 +39,14 @@
   <!-- Counter Demo Tab -->
   @if (selectedTab() === 'counter') {
   <div class="content-section">
-    <app-ngrx-counter-demo
-      [counterState]="counterState()"
-      [actionsLog]="actionsLog()"
-      (onIncrement)="increment()"
-      (onDecrement)="decrement()"
-      (onReset)="reset()"
-      (onClearLogs)="clearLogs()"
-    />
+    <app-ngrx-counter-demo />
   </div>
   }
 
   <!-- Todos Demo Tab -->
   @if (selectedTab() === 'todos') {
   <div class="content-section">
-    <app-ngrx-todo-demo
-      [todoState]="todoState()"
-      [actionsLog]="actionsLog()"
-      [newTodoText]="newTodoText()"
-      [filteredTodos]="filteredTodos"
-      [activeTodosCount]="activeTodosCount"
-      [completedTodosCount]="completedTodosCount"
-      (onAddTodo)="addTodo()"
-      (onToggleTodo)="toggleTodo($event)"
-      (onDeleteTodo)="deleteTodo($event)"
-      (onSetFilter)="setFilter($event)"
-      (onClearCompleted)="clearCompleted()"
-      (onClearLogs)="clearLogs()"
-      (onNewTodoTextChange)="newTodoText.set($event)"
-    />
+    <app-ngrx-todo-demo />
   </div>
   }
 </div>

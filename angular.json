@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "corso-34-angular": {
+    "angular-showroom": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -61,10 +61,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "corso-34-angular:build:production"
+              "buildTarget": "angular-showroom:build:production"
             },
             "development": {
-              "buildTarget": "corso-34-angular:build:development"
+              "buildTarget": "angular-showroom:build:development"
             }
           },
           "defaultConfiguration": "development"
