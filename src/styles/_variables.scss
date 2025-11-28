@@ -1,0 +1,14 @@
+// Grid breakpoints
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+  xxl: 1536px
+);
+
+// Transitions
+$transition: all 0.3s ease;
+$transition-fast: all 0.15s ease;
+$transition-slow: all 0.5s ease;

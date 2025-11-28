@@ -1,0 +1,230 @@
+@use 'globals' as *;
+
+// TYPOGRAPHY WEIGHTS
+$font-weight-medium: 500; // .medium
+$font-weight-semibold: 600; // .semibold
+$font-weight-bold: 700; // .bold
+
+//SIZES
+.display-xl {
+  font-size: rem(24);
+  line-height: rem(40);
+
+  @include media-min-breakpoint(md) {
+    font-size: rem(32);
+    line-height: rem(46);
+  }
+}
+
+.display-l {
+  font-size: rem(20);
+  line-height: rem(28);
+
+  @include media-min-breakpoint(md) {
+    font-size: rem(24);
+  }
+}
+
+.display-md {
+  font-size: rem(18);
+  line-height: rem(24);
+
+  @include media-min-breakpoint(md) {
+    font-size: rem(20);
+  }
+}
+
+.body-md {
+  font-size: rem(14);
+  line-height: rem(20);
+
+  @include media-min-breakpoint(md) {
+    font-size: rem(16);
+  }
+}
+
+.body-s {
+  font-size: rem(12);
+  line-height: rem(18);
+
+  @include media-min-breakpoint(md) {
+    font-size: rem(14);
+    line-height: rem(20);
+  }
+}
+
+.body-xs {
+  font-size: rem(12);
+  line-height: rem(18);
+}
+
+.body-xxs {
+  font-size: rem(10);
+  line-height: rem(14);
+}
+
+.body-xxxs {
+  font-size: rem(8);
+  line-height: rem(12);
+}
+
+//WEIGHT
+.regular {
+  font-weight: 400;
+}
+
+.medium {
+  font-weight: 500;
+}
+
+.semibold {
+  font-weight: 600;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+//ITALIC
+.italic {
+  font-style: italic;
+}
+
+//CAPITALIZATION
+.uppercase {
+  text-transform: uppercase;
+}
+
+.lowercase {
+  text-transform: lowercase;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+//ELLIPSIS
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+//WHITE SPACE
+.white-space {
+  //NORMAL
+  &-normal {
+    white-space: normal;
+  }
+
+  //NO WRAP
+  &-nowrap {
+    white-space: nowrap;
+  }
+}
+
+//UNDERLINE
+.underline {
+  text-decoration: underline;
+}
+
+//TEXT COLOR AND ICON COLOR
+.primary-text,
+.icon-primary {
+  color: $primary !important;
+}
+
+.primary-dark-text {
+  color: $primary-dark !important;
+}
+
+.primary-light-text,
+.icon-primary-light {
+  color: $primary-light !important;
+}
+
+.angular-red-text {
+  color: $angular-red !important;
+}
+
+.blue-text {
+  color: $blue !important;
+}
+
+.blue-dark-text {
+  color: $blue-dark !important;
+}
+
+.blue-darkest-text {
+  color: $blue-darkest !important;
+}
+
+.neutral-text {
+  color: $neutral !important;
+}
+
+.neutral-light-text {
+  color: $neutral-light !important;
+}
+
+.neutral-lighter-text {
+  color: $neutral-lighter !important;
+}
+
+.neutral-lighter-2-text {
+  color: $neutral-lighter-2 !important;
+}
+
+.neutral-darkest-text {
+  color: $neutral-darkest !important;
+}
+
+.info-text {
+  color: $info !important;
+}
+
+.yellow-text {
+  color: $yellow !important;
+}
+
+.green-text {
+  color: $green !important;
+}
+
+.success-text,
+.icon-success {
+  color: $success !important;
+}
+
+.error-text,
+.icon-error {
+  color: $error !important;
+}
+
+.warning-text,
+.icon-warning {
+  color: $warning !important;
+}
+
+.black-text {
+  color: $black !important;
+}
+
+.white-text {
+  color: $white !important;
+}
+
+//TEXT ALIGN
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+.text-center {
+  text-align: center;
+  vertical-align: middle;
+}
+.text-justify {
+  text-align: justify;
+}

@@ -1,3 +1,5 @@
+@use 'globals' as *;
+
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -52,8 +54,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 24px;
-  border-bottom: 1px solid #e0e0e0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-bottom: 1px solid $neutral-lightest;
+  background: $gradient-primary;
 }
 
 .modal-title {
@@ -89,7 +91,7 @@
 .modal-body {
   flex: 1;
   overflow: auto;
-  background: #f8f9fa;
+  background: $neutral-bg;
 }
 
 .modal-iframe {

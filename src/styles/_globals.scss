@@ -1,0 +1,6 @@
+// Global SCSS imports - Import this file in components that need SCSS variables, mixins, or functions
+// Usage: @use 'globals' as *;
+
+@forward 'variables';
+@forward 'mixins';
+@forward 'colors';
