@@ -32,392 +32,42 @@
   <!-- Concepts Tab -->
   @if (selectedTab() === 'concepts') {
   <div class="content-section">
-    <div class="intro-section">
-      <h2>🎯 Cos'è NgRx?</h2>
-      <p>
-        NgRx è una libreria per la gestione dello stato in Angular basata sul
-        pattern Redux. Fornisce un modo prevedibile di gestire lo stato
-        dell'applicazione attraverso un flusso unidirezionale di dati.
-      </p>
-
-      <div class="architecture-diagram">
-        <div class="flow-step">
-          <div class="flow-box component">Component</div>
-          <div class="flow-arrow">dispatch</div>
-          <div class="flow-box action">Action</div>
-        </div>
-        <div class="flow-step">
-          <div class="flow-arrow">→</div>
-          <div class="flow-box reducer">Reducer</div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-box store">Store</div>
-        </div>
-        <div class="flow-step">
-          <div class="flow-arrow">select</div>
-          <div class="flow-box selector">Selector</div>
-          <div class="flow-arrow">subscribe</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="concepts-grid">
-      <!-- Store -->
-      <div class="concept-card">
-        <div class="concept-header">
-          <span class="concept-icon">🏪</span>
-          <h3>Store</h3>
-        </div>
-        <p class="concept-description">
-          Il contenitore centrale che mantiene l'intero stato dell'applicazione.
-          È l'unica fonte di verità (single source of truth).
-        </p>
-        <app-code-block [code]="storeCode" language="typescript" />
-        <div class="key-points">
-          <h4>Caratteristiche:</h4>
-          <ul>
-            <li>✓ Immutabile</li>
-            <li>✓ Prevedibile</li>
-            <li>✓ Centralizzato</li>
-            <li>✓ Serializzabile</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Actions -->
-      <div class="concept-card">
-        <div class="concept-header">
-          <span class="concept-icon">⚡</span>
-          <h3>Actions</h3>
-        </div>
-        <p class="concept-description">
-          Eventi che descrivono qualcosa che è successo nell'applicazione. Sono
-          gli unici modi per inviare dati allo store.
-        </p>
-        <app-code-block [code]="actionsCode" language="typescript" />
-        <div class="key-points">
-          <h4>Best Practices:</h4>
-          <ul>
-            <li>✓ Usa nomi descrittivi</li>
-            <li>✓ Includi la sorgente [Source]</li>
-            <li>✓ Passa dati via props</li>
-            <li>✓ Mantienile semplici</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Reducers -->
-      <div class="concept-card">
-        <div class="concept-header">
-          <span class="concept-icon">⚙️</span>
-          <h3>Reducers</h3>
-        </div>
-        <p class="concept-description">
-          Funzioni pure che prendono lo stato corrente e un'action, e ritornano
-          un nuovo stato. Sono responsabili della gestione delle transizioni di
-          stato.
-        </p>
-        <app-code-block [code]="reducerCode" language="typescript" />
-        <div class="key-points">
-          <h4>Regole:</h4>
-          <ul>
-            <li>✓ Funzioni pure</li>
-            <li>✓ No side effects</li>
-            <li>✓ No mutazioni dirette</li>
-            <li>✓ Ritornano nuovo stato</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Selectors -->
-      <div class="concept-card">
-        <div class="concept-header">
-          <span class="concept-icon">🔍</span>
-          <h3>Selectors</h3>
-        </div>
-        <p class="concept-description">
-          Funzioni pure per selezionare e derivare dati dallo store. Sono
-          memoizzati per performance ottimali.
-        </p>
-        <app-code-block [code]="selectorsCode" language="typescript" />
-        <div class="key-points">
-          <h4>Vantaggi:</h4>
-          <ul>
-            <li>✓ Memoizzazione</li>
-            <li>✓ Riutilizzabili</li>
-            <li>✓ Composizione</li>
-            <li>✓ Testabili</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Effects -->
-      <div class="concept-card">
-        <div class="concept-header">
-          <span class="concept-icon">🌊</span>
-          <h3>Effects</h3>
-        </div>
-        <p class="concept-description">
-          Gestiscono side effects come chiamate HTTP, routing, storage, ecc.
-          Ascoltano actions e possono emettere nuove actions.
-        </p>
-        <app-code-block [code]="effectsCode" language="typescript" />
-        <div class="key-points">
-          <h4>Casi d'uso:</h4>
-          <ul>
-            <li>✓ API calls</li>
-            <li>✓ WebSocket</li>
-            <li>✓ LocalStorage</li>
-            <li>✓ Routing</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Component Integration -->
-      <div class="concept-card">
-        <div class="concept-header">
-          <span class="concept-icon">🧩</span>
-          <h3>Component Integration</h3>
-        </div>
-        <p class="concept-description">
-          Come integrare NgRx nei componenti Angular usando Store injection e
-          selectors.
-        </p>
-        <app-code-block [code]="componentCode" language="typescript" />
-        <div class="key-points">
-          <h4>Pattern:</h4>
-          <ul>
-            <li>✓ Inject Store</li>
-            <li>✓ Use selectors</li>
-            <li>✓ Dispatch actions</li>
-            <li>✓ Async pipe</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- Setup Section -->
-    <div class="setup-section">
-      <h2>🚀 Setup & Installation</h2>
-      <div class="setup-grid">
-        <div class="setup-step">
-          <h3>1. Installazione</h3>
-          <app-code-block
-            [code]="'ng add @ngrx/store\nng add @ngrx/effects\nng add @ngrx/store-devtools'"
-            language="typescript"
-          />
-        </div>
-        <div class="setup-step">
-          <h3>2. Configurazione</h3>
-          <app-code-block [code]="setupCode" language="typescript" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Best Practices -->
-    <div class="best-practices">
-      <h2>💡 Best Practices</h2>
-      <div class="practices-grid">
-        <div class="practice">
-          <h4>📁 Struttura File</h4>
-          <ul>
-            <li>Organizza per feature</li>
-            <li>Mantieni file piccoli</li>
-            <li>Usa naming conventions</li>
-            <li>Separa concerns</li>
-          </ul>
-        </div>
-        <div class="practice">
-          <h4>🔒 Immutabilità</h4>
-          <ul>
-            <li>Usa spread operator</li>
-            <li>Non mutare lo state</li>
-            <li>Usa immer se necessario</li>
-            <li>Freeze state in dev</li>
-          </ul>
-        </div>
-        <div class="practice">
-          <h4>🎯 Performance</h4>
-          <ul>
-            <li>Usa selectors memoizzati</li>
-            <li>Normalizza lo state</li>
-            <li>OnPush change detection</li>
-            <li>Evita logica nei reducer</li>
-          </ul>
-        </div>
-        <div class="practice">
-          <h4>🧪 Testing</h4>
-          <ul>
-            <li>Testa reducers isolati</li>
-            <li>Mock effects</li>
-            <li>Test selectors</li>
-            <li>Integration tests</li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    <app-ngrx-concepts />
   </div>
   }
 
   <!-- Counter Demo Tab -->
   @if (selectedTab() === 'counter') {
   <div class="content-section">
-    <div class="demo-container">
-      <div class="demo-main">
-        <h2>Counter Example</h2>
-        <div class="counter-display">
-          <div class="count-value">{{ counterState().count }}</div>
-          <div class="count-label">Current Count</div>
-        </div>
-
-        <div class="counter-controls">
-          <button class="btn btn-decrement" (click)="decrement()">
-            <span class="btn-icon">➖</span> Decrement
-          </button>
-          <button class="btn btn-reset" (click)="reset()">
-            <span class="btn-icon">🔄</span> Reset
-          </button>
-          <button class="btn btn-increment" (click)="increment()">
-            <span class="btn-icon">➕</span> Increment
-          </button>
-        </div>
-
-        <div class="history-section">
-          <h3>History</h3>
-          <div class="history-list">
-            @for (value of counterState().history.slice().reverse(); track $index) {
-            <span class="history-item">{{ value }}</span>
-            }
-          </div>
-        </div>
-      </div>
-
-      <div class="demo-sidebar">
-        <div class="actions-log">
-          <div class="log-header">
-            <h3>⚡ Actions Log</h3>
-            <button class="btn-clear" (click)="clearLogs()">Clear</button>
-          </div>
-          <div class="log-list">
-            @if (actionsLog().length === 0) {
-            <div class="log-empty">Nessuna action ancora...</div>
-            } @for (action of actionsLog(); track $index) {
-            <div class="log-item">
-              <span class="log-time">{{ $index + 1 }}</span>
-              <span class="log-action">{{ action }}</span>
-            </div>
-            }
-          </div>
-        </div>
-
-        <div class="state-preview">
-          <h3>🏪 Current State</h3>
-          <pre><code>{{ counterState() | json }}</code></pre>
-        </div>
-      </div>
-    </div>
+    <app-ngrx-counter-demo
+      [counterState]="counterState()"
+      [actionsLog]="actionsLog()"
+      (onIncrement)="increment()"
+      (onDecrement)="decrement()"
+      (onReset)="reset()"
+      (onClearLogs)="clearLogs()"
+    />
   </div>
   }
 
   <!-- Todos Demo Tab -->
   @if (selectedTab() === 'todos') {
   <div class="content-section">
-    <div class="todo-container">
-      <div class="todo-main">
-        <h2>Todo List Example</h2>
-
-        <div class="todo-input-section">
-          <input
-            type="text"
-            class="todo-input"
-            placeholder="Cosa devi fare?"
-            [(ngModel)]="newTodoText"
-            (keyup.enter)="addTodo()"
-          />
-          <button class="btn btn-add" (click)="addTodo()">
-            <span class="btn-icon">➕</span> Aggiungi
-          </button>
-        </div>
-
-        <div class="todo-filters">
-          <button
-            class="filter-btn"
-            [class.active]="todoState().filter === 'all'"
-            (click)="setFilter('all')"
-          >
-            Tutti ({{ todoState().todos.length }})
-          </button>
-          <button
-            class="filter-btn"
-            [class.active]="todoState().filter === 'active'"
-            (click)="setFilter('active')"
-          >
-            Attivi ({{ activeTodosCount }})
-          </button>
-          <button
-            class="filter-btn"
-            [class.active]="todoState().filter === 'completed'"
-            (click)="setFilter('completed')"
-          >
-            Completati ({{ completedTodosCount }})
-          </button>
-        </div>
-
-        <div class="todo-list">
-          @for (todo of filteredTodos; track todo.id) {
-          <div class="todo-item" [class.completed]="todo.completed">
-            <input
-              type="checkbox"
-              class="todo-checkbox"
-              [checked]="todo.completed"
-              (change)="toggleTodo(todo.id)"
-            />
-            <span class="todo-text">{{ todo.text }}</span>
-            <button class="btn-delete" (click)="deleteTodo(todo.id)">
-              🗑️
-            </button>
-          </div>
-          } @empty {
-          <div class="todo-empty">
-            @if (todoState().filter === 'all') { Nessun todo ancora. Aggiungine
-            uno! } @else if (todoState().filter === 'active') { Nessun todo
-            attivo! 🎉 } @else { Nessun todo completato ancora. }
-          </div>
-          }
-        </div>
-
-        @if (completedTodosCount > 0) {
-        <div class="todo-footer">
-          <button class="btn btn-clear-completed" (click)="clearCompleted()">
-            Elimina completati
-          </button>
-        </div>
-        }
-      </div>
-
-      <div class="todo-sidebar">
-        <div class="actions-log">
-          <div class="log-header">
-            <h3>⚡ Actions Log</h3>
-            <button class="btn-clear" (click)="clearLogs()">Clear</button>
-          </div>
-          <div class="log-list">
-            @if (actionsLog().length === 0) {
-            <div class="log-empty">Nessuna action ancora...</div>
-            } @for (action of actionsLog(); track $index) {
-            <div class="log-item">
-              <span class="log-time">{{ $index + 1 }}</span>
-              <span class="log-action">{{ action }}</span>
-            </div>
-            }
-          </div>
-        </div>
-
-        <div class="state-preview">
-          <h3>🏪 Current State</h3>
-          <pre><code>{{ todoState() | json }}</code></pre>
-        </div>
-      </div>
-    </div>
+    <app-ngrx-todo-demo
+      [todoState]="todoState()"
+      [actionsLog]="actionsLog()"
+      [newTodoText]="newTodoText()"
+      [filteredTodos]="filteredTodos"
+      [activeTodosCount]="activeTodosCount"
+      [completedTodosCount]="completedTodosCount"
+      (onAddTodo)="addTodo()"
+      (onToggleTodo)="toggleTodo($event)"
+      (onDeleteTodo)="deleteTodo($event)"
+      (onSetFilter)="setFilter($event)"
+      (onClearCompleted)="clearCompleted()"
+      (onClearLogs)="clearLogs()"
+      (onNewTodoTextChange)="newTodoText.set($event)"
+    />
   </div>
   }
 </div>

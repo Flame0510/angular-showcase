@@ -1,0 +1,54 @@
+<div class="demo-container">
+  <div class="demo-main">
+    <h2>Counter Example</h2>
+    <div class="counter-display">
+      <div class="count-value">{{ counterState().count }}</div>
+      <div class="count-label">Current Count</div>
+    </div>
+
+    <div class="counter-controls">
+      <button class="btn btn-decrement" (click)="onDecrement.emit()">
+        <span class="btn-icon">➖</span> Decrement
+      </button>
+      <button class="btn btn-reset" (click)="onReset.emit()">
+        <span class="btn-icon">🔄</span> Reset
+      </button>
+      <button class="btn btn-increment" (click)="onIncrement.emit()">
+        <span class="btn-icon">➕</span> Increment
+      </button>
+    </div>
+
+    <div class="history-section">
+      <h3>History</h3>
+      <div class="history-list">
+        @for (value of counterState().history.slice().reverse(); track $index) {
+        <span class="history-item">{{ value }}</span>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-sidebar">
+    <div class="actions-log">
+      <div class="log-header">
+        <h3>⚡ Actions Log</h3>
+        <button class="btn-clear" (click)="onClearLogs.emit()">Clear</button>
+      </div>
+      <div class="log-list">
+        @if (actionsLog().length === 0) {
+        <div class="log-empty">Nessuna action ancora...</div>
+        } @for (action of actionsLog(); track $index) {
+        <div class="log-item">
+          <span class="log-time">{{ $index + 1 }}</span>
+          <span class="log-action">{{ action }}</span>
+        </div>
+        }
+      </div>
+    </div>
+
+    <div class="state-preview">
+      <h3>🏪 Current State</h3>
+      <pre><code>{{ counterState() | json }}</code></pre>
+    </div>
+  </div>
+</div>
