@@ -1,0 +1,67 @@
+<!--
+  GuideStep Component Template
+
+  Displays a step-by-step instruction with:
+  - Numbered circular badge
+  - Title with emoji
+  - Explanation text
+  - Optional code example
+  - Optional explanation box with tips
+
+  Note: Uses [innerHTML] to support HTML formatting (e.g., <strong>, <code>)
+-->
+
+<!-- Main step container -->
+<div class="guide-step">
+  <!-- Circular badge with step number -->
+  <div class="guide-step__number">{{ stepNumber }}</div>
+
+  <!-- Step content section -->
+  <div class="guide-step__content">
+    <!-- Step title with emoji (supports HTML) -->
+    <h3 class="guide-step__title" [innerHTML]="title"></h3>
+
+    <!-- Main explanation text (supports HTML formatting) -->
+    <p class="guide-step__explanation" [innerHTML]="explanation"></p>
+
+    <!-- Optional code example block -->
+    @if (codeExample) {
+      <div class="guide-step__example-block">
+        <!-- Code example title (e.g., "File: store/counter.state.ts") -->
+        <h4 class="guide-step__example-title">{{ codeExample.title }}</h4>
+
+        <!-- Optional description before code -->
+        @if (codeExample.description) {
+          <p class="guide-step__example-description">{{ codeExample.description }}</p>
+        }
+
+        <!-- Syntax-highlighted code block -->
+        <app-code-block
+          [code]="codeExample.code"
+          [language]="codeExample.language || 'typescript'" />
+
+        <!-- Optional explanation box (tips, details, notes) -->
+        @if (explanationBox) {
+          <div class="guide-step__explanation-box">
+            <!-- Box title (e.g., "💡 Cosa stiamo facendo?") -->
+            <strong class="guide-step__explanation-title" [innerHTML]="explanationBox.title"></strong>
+
+            <!-- Optional content paragraph -->
+            @if (explanationBox.content) {
+              <p class="guide-step__explanation-content" [innerHTML]="explanationBox.content"></p>
+            }
+
+            <!-- Optional bullet points list -->
+            @if (explanationBox.points && explanationBox.points.length > 0) {
+              <ul class="guide-step__explanation-list">
+                @for (point of explanationBox.points; track $index) {
+                  <li class="guide-step__explanation-list-item" [innerHTML]="point"></li>
+                }
+              </ul>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

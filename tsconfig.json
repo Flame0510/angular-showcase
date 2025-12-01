@@ -18,10 +18,10 @@
     "paths": {
       "@app/*": ["./src/app/*"],
       "@components/*": ["./src/app/components/*"],
-      "@services/*": ["./src/app/services/*"],
+      "@services/*": ["./src/services/*"],
       "@directives/*": ["./src/app/directives/*"],
-      "@types/*": ["./src/app/types/*"],
-      "@styles/*": ["./src/app/styles/*"]
+      "@models/*": ["./src/types/*"],
+      "@styles/*": ["./src/styles/*"]
     }
   },
   "angularCompilerOptions": {

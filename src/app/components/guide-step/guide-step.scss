@@ -1,0 +1,223 @@
+/**
+ * GuideStep Component Styles
+ *
+ * Step-by-step instruction component for tutorials and guides.
+ * Features circular numbered badge, hover effects, and responsive design.
+ * Uses BEM (Block Element Modifier) methodology.
+ */
+
+@use 'globals' as *;
+
+// ═══ MAIN STEP CONTAINER ═══
+.guide-step {
+  // Layout: vertical flex on mobile, horizontal on desktop
+  @include flex(flex-start, flex-start);
+  flex-direction: column;
+  gap: rem(16);
+  margin-bottom: rem(48);
+
+  // Base styling (mobile-first)
+  background: $white;
+  border-radius: rem(16);
+  padding: rem(20);
+  box-shadow: 0 rem(4) rem(12) rgba(0, 0, 0, 0.08);
+  border-left: rem(4) solid $primary; // Accent border
+  transition: $transition;
+
+  // Full width responsive
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+
+  // Hover effect: enhance shadow and slide right
+  &:hover {
+    box-shadow: 0 rem(8) rem(24) rgba(0, 0, 0, 0.12);
+    transform: translateX(rem(4));
+  }
+
+  // Desktop: horizontal layout with more spacing
+  @include media-min-breakpoint(md) {
+    flex-direction: row;
+    gap: rem(24);
+    padding: rem(24);
+  }
+
+  @include media-min-breakpoint(lg) {
+    gap: rem(32);
+    padding: rem(32);
+  }
+
+  // ─── NUMBERED BADGE ───
+  // Circular badge with gradient background
+  &__number {
+    flex-shrink: 0; // Prevent badge from shrinking
+    width: rem(45);
+    height: rem(45);
+    background: $gradient-primary;
+    color: $white;
+    border-radius: 50%;
+    @include flex(center, center);
+    font-size: rem(18);
+    font-weight: bold;
+    box-shadow: 0 rem(4) rem(12) rgba(102, 126, 234, 0.3);
+
+    // Larger badge on tablets and up
+    @include media-min-breakpoint(md) {
+      width: rem(50);
+      height: rem(50);
+      font-size: rem(20);
+    }
+
+    @include media-min-breakpoint(lg) {
+      width: rem(60);
+      height: rem(60);
+      font-size: rem(24);
+    }
+  }
+
+  // ─── STEP CONTENT ───
+  &__content {
+    flex: 1; // Take remaining space
+    min-width: 0; // Allow content to shrink below min-content
+  }
+
+  // Step title (with emoji)
+  &__title {
+    font-size: rem(18);
+    color: $neutral-darkest;
+    margin: 0 0 rem(16);
+    word-break: break-word; // Prevent overflow on long words
+
+    // Larger title on tablets and up
+    @include media-min-breakpoint(md) {
+      font-size: rem(20);
+    }
+
+    @include media-min-breakpoint(lg) {
+      font-size: rem(24);
+    }
+  }
+
+  // Main explanation text
+  &__explanation {
+    font-size: rem(15);
+    line-height: 1.7;
+    color: $neutral-darker;
+    margin-bottom: rem(24);
+
+    // Larger text on tablets and up
+    @include media-min-breakpoint(md) {
+      font-size: rem(16);
+    }
+
+    @include media-min-breakpoint(lg) {
+      font-size: rem(17);
+    }
+  }
+
+  // ─── CODE EXAMPLE BLOCK ───
+  // Container for code examples with syntax highlighting
+  &__example-block {
+    background: $neutral-bg;
+    border-radius: rem(12);
+    padding: rem(20);
+    margin-top: rem(24);
+    border: rem(1) solid $neutral-lightest;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: auto; // Enable horizontal scroll for long code
+
+    // More padding on larger screens
+    @include media-min-breakpoint(lg) {
+      padding: rem(24);
+    }
+  }
+
+  // Example title (e.g., "File: store/counter.state.ts")
+  &__example-title {
+    font-size: rem(16);
+    color: $primary;
+    margin: 0 0 rem(12);
+    @include flex(flex-start, center);
+    gap: rem(8);
+    word-break: break-word;
+
+    // File icon before title
+    &::before {
+      content: '📄';
+      font-size: rem(20);
+      flex-shrink: 0;
+    }
+
+    // Larger font on desktop
+    @include media-min-breakpoint(lg) {
+      font-size: rem(18);
+    }
+  }
+
+  // Optional description before code
+  &__example-description {
+    color: $neutral-light;
+    margin-bottom: rem(16);
+    font-size: rem(15);
+  }
+
+  // ─── EXPLANATION BOX ───
+  // Highlighted box with tips, notes, or additional details
+  &__explanation-box {
+    background: linear-gradient(135deg, $blue-bg-light 0%, #ddd6fe 100%);
+    border-left: rem(4) solid $primary;
+    border-radius: rem(8);
+    padding: rem(16);
+    margin-top: rem(24);
+
+    // More padding on larger screens
+    @include media-min-breakpoint(lg) {
+      padding: rem(20);
+    }
+  }
+
+  // Box title (e.g., "💡 Cosa stiamo facendo?")
+  &__explanation-title {
+    display: block;
+    font-size: rem(15);
+    color: $blue-darkest;
+    margin-bottom: rem(12);
+
+    // Larger font on desktop
+    @include media-min-breakpoint(lg) {
+      font-size: rem(16);
+    }
+  }
+
+  // Content paragraph
+  &__explanation-content {
+    color: $blue-darker;
+    margin: rem(8) 0;
+    line-height: 1.6;
+  }
+
+  // Bullet points or numbered lists
+  &__explanation-list {
+    margin: rem(8) 0;
+    padding-left: rem(24);
+    color: $blue-darker;
+  }
+
+  // Individual list item
+  &__explanation-list-item {
+    margin: rem(8) 0;
+    line-height: 1.6;
+
+    // Inline code snippets within list items
+    code {
+      background: rgba(255, 255, 255, 0.7);
+      padding: rem(3) rem(6);
+      border-radius: rem(4);
+      font-family: 'Courier New', monospace;
+      font-size: rem(14);
+      color: $blue-darkest;
+    }
+  }
+}

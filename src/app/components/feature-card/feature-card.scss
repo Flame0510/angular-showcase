@@ -1,12 +1,24 @@
+/**
+ * FeatureCard Component Styles
+ *
+ * Reusable card component for feature showcase on homepage.
+ * Features gradient hover effects, animations, and icon display.
+ * Uses BEM methodology.
+ */
+
+@use 'globals' as *;
+
+// ═══ MAIN CARD CONTAINER ═══
 .feature-card {
+  // Base styling (mobile-first)
   height: 100%;
   background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  padding: 32px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  transition: 0.3s all ease;
+  backdrop-filter: blur(rem(10));
+  border-radius: rem(16);
+  padding: rem(24);
+  box-shadow: 0 rem(8) rem(32) rgba(0, 0, 0, 0.1);
+  border: rem(1) solid rgba(255, 255, 255, 0.3);
+  transition: $transition;
   text-decoration: none;
   color: inherit;
   display: flex;
@@ -15,10 +27,17 @@
   will-change: transform;
   transform-style: preserve-3d;
 
+  // More padding on desktop
+  @include media-min-breakpoint(md) {
+    padding: rem(32);
+  }
+
+  // Hover effect: gradient background and enhanced shadow
   &:hover {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    box-shadow: 0 16px 48px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 rem(16) rem(48) rgba(102, 126, 234, 0.3);
 
+    // Icon inverts colors on hover
     .feature-card__icon {
       background: white;
 
@@ -27,11 +46,13 @@
       }
     }
 
+    // Text becomes white on hover
     .feature-card__title,
     .feature-card__text {
       color: white;
     }
 
+    // List items become white on hover
     .feature-card__list li {
       color: rgba(255, 255, 255, 0.9);
 
@@ -41,19 +62,32 @@
     }
   }
 
+  // ─── ICON CONTAINER ───
+  // Gradient background with centered icon
   &__icon {
-    width: 64px;
-    height: 64px;
+    width: rem(56);
+    height: rem(56);
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 16px;
+    border-radius: rem(16);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: rem(20);
+
+    // Larger icon on desktop
+    @include media-min-breakpoint(md) {
+      width: rem(64);
+      height: rem(64);
+    }
 
     app-icon {
-      width: 40px;
-      height: 40px;
+      width: rem(36);
+      height: rem(36);
+
+      @include media-min-breakpoint(md) {
+        width: rem(40);
+        height: rem(40);
+      }
 
       svg {
         stroke: white;
@@ -61,32 +95,42 @@
     }
   }
 
+  // ─── CARD TITLE ───
   &__title {
-    font-size: 24px;
+    font-size: rem(20);
     font-weight: 700;
     color: #667eea;
-    margin-bottom: 12px;
+    margin-bottom: rem(12);
+
+    // Larger title on desktop
+    @include media-min-breakpoint(md) {
+      font-size: rem(24);
+    }
   }
 
+  // Card description text
   &__text {
-    font-size: 15px;
+    font-size: rem(15);
     color: #666;
-    margin-bottom: 16px;
+    margin-bottom: rem(16);
     line-height: 1.5;
   }
 
+  // ─── FEATURE LIST ───
+  // List of features with checkmark icons
   &__list {
     list-style: none;
     padding: 0;
     margin: 0;
 
     li {
-      font-size: 14px;
+      font-size: rem(14);
       color: #555;
-      padding: 6px 0;
-      padding-left: 20px;
+      padding: rem(6) 0;
+      padding-left: rem(20);
       position: relative;
 
+      // Checkmark icon before each item
       &::before {
         content: '✓';
         position: absolute;
@@ -96,6 +140,20 @@
         transition: 0.5s;
       }
     }
+  }
+}
+
+// ═══ ANIMATIONS ═══
+
+// Slide up animation on card mount
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, rem(30), 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 }
 

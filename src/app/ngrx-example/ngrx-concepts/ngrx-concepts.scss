@@ -69,61 +69,6 @@
   gap: 2rem;
   margin-bottom: 3rem;
 }
-.concept-card {
-  background: #fff;
-  border-radius: 1rem;
-  padding: 1.75rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e5e7eb;
-  transition: all 0.3s;
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
-    border-color: #2563eb;
-  }
-  .concept-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.25rem;
-    .concept-icon {
-      font-size: 2rem;
-    }
-    h3 {
-      font-size: 1.5rem;
-      color: #1f2937;
-      margin: 0;
-    }
-  }
-  .concept-description {
-    color: #4b5563;
-    line-height: 1.6;
-    margin-bottom: 1.25rem;
-    font-size: 1rem;
-  }
-  .key-points {
-    background: #f0f9ff;
-    border-left: 4px solid #3b82f6;
-    padding: 1.25rem;
-    border-radius: 0.5rem;
-    h4 {
-      color: #1e40af;
-      margin: 0 0 0.75rem;
-      font-size: 1rem;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      li {
-        padding: 0.4rem 0;
-        color: #1e40af;
-        font-weight: 500;
-        font-size: 0.95rem;
-      }
-    }
-  }
-}
 .setup-section {
   background: #f9fafb;
   padding: 2.5rem;
@@ -478,134 +423,7 @@
     }
   }
 
-  .guide-step {
-    display: flex;
-    gap: 2rem;
-    margin-bottom: 3rem;
-    background: white;
-    border-radius: 1rem;
-    padding: 2rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    border-left: 4px solid #667eea;
-    transition: all 0.3s;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
 
-    &:hover {
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-      transform: translateX(4px);
-    }
-
-    .step-number {
-      flex-shrink: 0;
-      width: 60px;
-      height: 60px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      font-weight: bold;
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-    }
-
-    .step-content {
-      flex: 1;
-      min-width: 0; // Important for flex children overflow
-
-      h3 {
-        font-size: 1.5rem;
-        color: #1f2937;
-        margin: 0 0 1rem;
-        word-break: break-word;
-      }
-
-      .step-explanation {
-        font-size: 1.05rem;
-        line-height: 1.7;
-        color: #4b5563;
-        margin-bottom: 1.5rem;
-      }
-
-      .example-block {
-        background: #f9fafb;
-        border-radius: 0.75rem;
-        padding: 1.5rem;
-        margin-top: 1.5rem;
-        border: 1px solid #e5e7eb;
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-        overflow-x: auto;
-
-        h4 {
-          font-size: 1.1rem;
-          color: #667eea;
-          margin: 0 0 0.75rem;
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          word-break: break-word;
-
-          &::before {
-            content: '📄';
-            font-size: 1.2rem;
-            flex-shrink: 0;
-          }
-        }
-
-        > p {
-          color: #6b7280;
-          margin-bottom: 1rem;
-          font-size: 0.95rem;
-        }
-      }
-
-      .explanation-box {
-        background: linear-gradient(135deg, #e0e7ff 0%, #ddd6fe 100%);
-        border-left: 4px solid #667eea;
-        border-radius: 0.5rem;
-        padding: 1.25rem;
-        margin-top: 1.5rem;
-
-        strong {
-          display: block;
-          font-size: 1rem;
-          color: #4c1d95;
-          margin-bottom: 0.75rem;
-        }
-
-        p {
-          color: #5b21b6;
-          margin: 0.5rem 0;
-          line-height: 1.6;
-        }
-
-        ul, ol {
-          margin: 0.5rem 0;
-          padding-left: 1.5rem;
-          color: #5b21b6;
-
-          li {
-            margin: 0.5rem 0;
-            line-height: 1.6;
-
-            code {
-              background: rgba(255, 255, 255, 0.7);
-              padding: 0.2rem 0.4rem;
-              border-radius: 0.25rem;
-              font-family: 'Courier New', monospace;
-              font-size: 0.9rem;
-              color: #6d28d9;
-            }
-          }
-        }
-      }
-    }
-  }
 
   .guide-summary {
     background: linear-gradient(135deg, #10b981 0%, #059669 100%);
@@ -735,40 +553,6 @@
       }
     }
 
-    .guide-step {
-      flex-direction: column;
-      gap: 1rem;
-      padding: 1.5rem;
-
-      .step-number {
-        width: 50px;
-        height: 50px;
-        font-size: 1.25rem;
-      }
-
-      .step-content {
-        h3 {
-          font-size: 1.25rem;
-        }
-
-        .step-explanation {
-          font-size: 1rem;
-        }
-
-        .example-block {
-          padding: 1rem;
-
-          h4 {
-            font-size: 1rem;
-          }
-        }
-
-        .explanation-box {
-          padding: 1rem;
-        }
-      }
-    }
-
     .guide-summary {
       padding: 1.5rem;
 
@@ -821,19 +605,6 @@
 
       h2 {
         font-size: 1.35rem;
-      }
-    }
-
-    .guide-step {
-      padding: 1.25rem;
-      border-radius: 0.75rem;
-      margin-bottom: 2rem;
-
-      .step-content {
-        .example-block {
-          padding: 0.875rem;
-          border-radius: 0.5rem;
-        }
       }
     }
 

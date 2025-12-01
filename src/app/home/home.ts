@@ -20,35 +20,35 @@ interface Feature {
 export class Home {
   featureCards: Feature[] = [
     {
-      routerLink: '/data-binding',
+      routerLink: '/basics/data-binding',
       iconName: 'data-binding',
       title: 'Data Binding',
       description: 'Esempi di binding bidirezionale',
       features: ['Property Binding', 'Event Binding', 'Two-way Binding [(ngModel)]'],
     },
     {
-      routerLink: '/directives',
+      routerLink: '/basics/directives',
       iconName: 'directives',
       title: 'Directives',
       description: 'Direttive strutturali e di attributo',
       features: ['@if, @for, @switch', 'ngClass, ngStyle', 'Custom Directives'],
     },
     {
-      routerLink: '/forms',
+      routerLink: '/basics/forms',
       iconName: 'form',
       title: 'Forms',
       description: 'Reactive Forms con validazione avanzata',
       features: ['FormGroup e FormControl', 'Validatori custom', 'Feedback visivo real-time'],
     },
     {
-      routerLink: '/signals',
+      routerLink: '/advanced/signals',
       iconName: 'signals',
       title: 'Signals',
       description: 'Angular Signals API con esempi pratici',
       features: ['Writable Signals', 'Computed Signals', 'Effects', 'Carrello reattivo'],
     },
     {
-      routerLink: '/http',
+      routerLink: '/advanced/http',
       iconName: 'http',
       title: 'HTTP & Services',
       description: 'Richieste HTTP con Service Facade Pattern',
@@ -59,7 +59,7 @@ export class Home {
       ],
     },
     {
-      routerLink: '/users',
+      routerLink: '/examples/users',
       iconName: 'users',
       title: 'Users',
       description: 'Gestione utenti con componenti standalone, Signals e Service',

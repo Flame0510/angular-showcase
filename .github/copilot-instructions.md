@@ -1,5 +1,11 @@
 # Copilot Instructions - Angular Showcase
 
+> **📚 Detailed Documentation**: This file provides a high-level overview. For detailed guidelines, see:
+> - [Project Structure](./copilot-instructions/project-structure.md) - Directory organization and file naming
+> - [Styling Conventions](./copilot-instructions/styling-conventions.md) - SCSS best practices (mobile-first, rem(), BEM)
+> - [Reusable Components](./copilot-instructions/reusable-components.md) - Component documentation standards
+> - [TypeScript Conventions](./copilot-instructions/typescript.md) - TypeScript best practices (TODO)
+
 ## 🌍 Language Policy
 
 ### Code & Technical Content (English Only)
@@ -36,6 +42,10 @@ This is an Angular 18+ standalone project showcasing the main framework features
     component-name.scss
     component-name.spec.ts (opzionale)
   ```
+- **Reusable components**: Must be fully documented (see [Reusable Components Guide](./copilot-instructions/reusable-components.md))
+  - TypeScript: JSDoc with `@example`, interface exports
+  - HTML: Section comments explaining structure
+  - SCSS: Detailed comments with section markers
 - **Import order in components**:
   1. Angular core (`@angular/core`, `@angular/common`)
   2. Angular routing (`@angular/router`)
@@ -54,54 +64,57 @@ This is an Angular 18+ standalone project showcasing the main framework features
 
 ### Styling
 
-#### Global SCSS
-- **File `_globals.scss`**: Single import that includes everything
-- **How to use in component SCSS files**:
-  ```scss
-  @use 'globals' as *;
+> **📘 Detailed SCSS Guidelines**: For comprehensive styling conventions, see [Styling Conventions](./copilot-instructions/styling-conventions.md)
+
+#### Quick Reference
+
+**Global SCSS Import**:
+```scss
+@use 'globals' as *;
+// Now you have access to all SCSS variables, mixins, and functions
+```
+
+**Key Principles**:
+- ✅ **Mobile-first**: Always use `@include media-min-breakpoint()`
+- ✅ **rem() function**: Convert all sizes (no px/rem literals)
+- ✅ **BEM methodology**: Use `&__` for elements, `&--` for modifiers
+- ✅ **Class-based selectors**: Never use direct HTML tag selectors
+- ✅ **SCSS variables**: Use `$primary`, `$white`, etc. (not CSS custom properties)
+
+**Most Common Variables**:
+- Colors: `$primary`, `$white`, `$neutral-*`, `$blue-*`
+- Transitions: `$transition` (already includes 'all')
+- Breakpoints: xs, sm, md (768px), lg (1024px), xl, xxl
+
+**Most Common Mixins**:
+- `@include flex($justify, $align)`
+- `@include media-min-breakpoint(md)` - Tablet and up
+- `@include media-min-breakpoint(lg)` - Desktop and up
+
+**Example**:
+```scss
+@use 'globals' as *;
+
+.card {
+  padding: rem(16); // Mobile base
+  background: $white;
+  transition: $transition;
   
-  // Now you have access to:
-  // - All SCSS variables ($primary, $white, $neutral-*, etc.)
-  // - All mixins (@include flex(), rem(), vh(), etc.)
-  // - All functions (rem(), vh(), vw())
-  ```
-
-#### CSS Custom Properties
-- **Colors**: Always available globally via `var(--name)`
-- **No import needed** in component SCSS files for colors
-- **Examples**:
-  ```scss
-  color: var(--white);
-  background: var(--primary);
-  border: 1px solid var(--neutral-light);
-  ```
-
-#### Available SCSS Variables and Mixins
-
-**Colors** (as SCSS variables after `@use 'globals'`):
-- `$primary`, `$primary-dark`, `$primary-light`
-- `$angular-red`, `$angular-red-dark`, `$angular-red-light`
-- `$white`, `$black`
-- `$neutral-*` (darkest, darker, neutral, light, lighter, lighter-2, lightest, bg)
-- `$blue-*` (blue, light, dark, darker, darkest, bg-light, bg-lighter)
-- `$success`, `$error`, `$warning`, `$info`
-- `$yellow`, `$green`
-- Gradienti: `$gradient-primary`, `$gradient-angular`, `$gradient-blue-bg`
-
-**Variables**:
-- `$transition`, `$transition-fast`, `$transition-slow`
-- `$grid-breakpoints` (xs, sm, md, lg, xl, xxl)
-
-**Functions**:
-- `rem($size)` - Converts px to rem
-- `vh($size)` - Converts px to vh
-- `vw($size, $base-vw)` - Converts px to vw
-
-**Mixins**:
-- `@include flex($justify, $align, $direction, $wrap, $display)`
-- `@include media-min-breakpoint($breakpoint)` - Media query min-width
-- `@include media-max-breakpoint($breakpoint)` - Media query max-width
-- `@include animated-underline` - Animated underline on hover
+  &__title {
+    font-size: rem(18);
+    color: $neutral-darkest;
+  }
+  
+  // Tablet and up
+  @include media-min-breakpoint(md) {
+    padding: rem(24);
+    
+    &__title {
+      font-size: rem(20);
+    }
+  }
+}
+```
 
 #### Global Typography Classes
 Available throughout the project without import:
@@ -300,6 +313,9 @@ npm test           # Run tests
 - ❌ Don't use `@import` in SCSS (use `@use` or `@forward`)
 - ❌ Don't increase budgets without optimizing code first
 - ❌ Don't use Italian in code, comments, or documentation
+- ❌ **NEVER use direct HTML tag selectors in SCSS** (always use classes)
+- ❌ **NEVER use px or rem literals** (always use `rem()` function for all sizes)
+- ❌ **NEVER use desktop-first approach** (always use mobile-first with `@include media-min-breakpoint()`)
 
 ## 🎯 Project Goals
 - Show modern Angular best practices

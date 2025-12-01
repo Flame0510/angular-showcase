@@ -111,22 +111,36 @@ We welcome contributions from developers of all skill levels! Here's how you can
 ### Contribution Guidelines
 
 1. **Fork the repository** and create a new branch for your feature
-2. **Follow the coding standards** defined in `.github/copilot-instructions.md`
+2. **Read the documentation** before contributing (see below)
 3. **Write meaningful commit messages** in English
 4. **Test your changes** thoroughly before submitting
 5. **Submit a Pull Request** with a clear description of your changes
 
-### Code Style
+### Required Reading for Contributors
 
-- All code, comments, and documentation **must be in English**
-- Use standalone Angular components
-- Follow TypeScript best practices
-- Use SCSS with the `@use 'globals'` import pattern
-- Write clean, readable, and well-documented code
+Please review these documents before contributing:
+
+- [📘 **Copilot Instructions**](./.github/copilot-instructions.md) - Project overview and architecture
+- [📐 **Project Structure**](./.github/copilot-instructions/project-structure.md) - Directory organization and file naming
+- [🎨 **Styling Conventions**](./.github/copilot-instructions/styling-conventions.md) - SCSS best practices (mobile-first, BEM, rem())
+- [🧩 **Reusable Components**](./.github/copilot-instructions/reusable-components.md) - Component documentation standards
+
+### Quick Coding Standards
+
+- ✅ All code, comments, and documentation **must be in English**
+- ✅ Use standalone Angular components (no NgModule)
+- ✅ Follow TypeScript best practices with explicit types
+- ✅ Use `@use 'globals' as *;` in SCSS files
+- ✅ Mobile-first approach with `@include media-min-breakpoint()`
+- ✅ Use `rem()` function for all sizes (no px/rem literals)
+- ✅ BEM methodology with `&__` and `&--` syntax
+- ✅ Class-based selectors only (never direct HTML tag selectors)
 
 ---
 
 ## 🗺️ Roadmap
+
+> **📌 Note**: This roadmap is actively maintained. When completing items, update checkboxes and move completed phases to "Recently Completed" section.
 
 Our vision unfolds in phases:
 
@@ -134,15 +148,20 @@ Our vision unfolds in phases:
 - [x] Angular core concepts showcase
 - [x] Interactive demos for Signals, HTTP, Forms
 - [x] State management examples (NgRx, BehaviorSubject)
-- [x] Responsive design system
+- [x] Responsive design system with mobile-first approach
 - [x] Modal-based deep-dive architecture
+- [x] Complete technical documentation system
+- [x] SCSS architecture with BEM methodology and rem() system
+- [x] Reusable component library with standardized documentation
 
-### Phase 2: Progressive Depth (Q1 2026)
+### Phase 2: Progressive Depth (In Progress - Q1 2026)
+- [x] Comprehensive documentation structure (Styling, Components, Project Structure)
 - [ ] Expandable concept cards with multiple depth levels
 - [ ] Side panel system for related topics
 - [ ] Internal hyperlink network (zero external redirects)
 - [ ] Breadcrumb navigation for context retention
 - [ ] Search with instant preview modals
+- [ ] TypeScript conventions documentation
 
 ### Phase 3: Interactive Sandboxes (Q2 2026)
 - [ ] Live code editor integration
@@ -197,6 +216,70 @@ Success for us means:
 - More contributors joining and improving the platform
 - Students building real projects with confidence
 - A global community of curious, empowered learners
+
+---
+
+## 📚 Technical Documentation
+
+Complete technical documentation for developers is available in the `.github/copilot-instructions/` folder:
+
+### Core Documentation
+- [📘 **Copilot Instructions**](./.github/copilot-instructions.md) - Complete project overview, architecture, and conventions
+- [📐 **Project Structure**](./.github/copilot-instructions/project-structure.md) - Directory organization, file naming, and path aliases
+- [🎨 **Styling Conventions**](./.github/copilot-instructions/styling-conventions.md) - SCSS best practices, mobile-first approach, BEM methodology
+- [🧩 **Reusable Components**](./.github/copilot-instructions/reusable-components.md) - Component documentation standards and guidelines
+
+### Quick Reference
+
+**Project Structure**:
+```
+src/
+  app/
+    components/          # Reusable components
+    [feature]/          # Feature components (one per route)
+    store/              # NgRx store
+  services/             # Shared services
+  styles/               # Global SCSS with _globals.scss
+  types/                # TypeScript interfaces
+```
+
+**Adding a New Component**:
+1. Create folder: `src/app/[feature]/component-name/`
+2. Create files: `.ts`, `.html`, `.scss`, `.spec.ts`
+3. Use path aliases: `@components/*`, `@services/*`, `@models/*`
+4. Follow [Styling Conventions](./.github/copilot-instructions/styling-conventions.md)
+
+**SCSS Quick Tips**:
+```scss
+@use 'globals' as *;
+
+.component {
+  padding: rem(16); // Mobile base
+  background: $white;
+  transition: $transition; // Already includes 'all'
+  
+  &__title {
+    font-size: rem(18);
+    color: $neutral-darkest;
+  }
+  
+  // Tablet and up
+  @include media-min-breakpoint(md) {
+    padding: rem(24);
+    
+    &__title {
+      font-size: rem(20);
+    }
+  }
+}
+```
+
+**Key Principles**:
+- ✅ Mobile-first with `@include media-min-breakpoint()`
+- ✅ Use `rem()` function for all sizes
+- ✅ BEM methodology with `&__` for elements, `&--` for modifiers
+- ✅ SCSS variables (not CSS custom properties in components)
+- ✅ Class-based selectors only
 
 ---
 

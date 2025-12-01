@@ -1,0 +1,137 @@
+/**
+ * ConceptCard Component Styles
+ *
+ * Reusable card component for displaying conceptual information.
+ * Features hover effects, responsive design, and flexible layout.
+ * Uses BEM (Block Element Modifier) methodology.
+ */
+
+@use 'globals' as *;
+
+// ═══ MAIN CARD CONTAINER ═══
+.concept-card {
+  // Base styling (mobile-first)
+  background: $white;
+  border-radius: rem(16);
+  padding: rem(20);
+  box-shadow: 0 rem(2) rem(4) rgba(0, 0, 0, 0.08);
+  border: rem(1) solid $neutral-lightest;
+  transition: $transition;
+
+  // Flexbox layout to push key-points to bottom
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  // Hover effect: lift card and highlight border
+  &:hover {
+    transform: translateY(rem(-2));
+    box-shadow: 0 rem(8) rem(16) rgba(0, 0, 0, 0.12);
+    border-color: $primary;
+  }
+
+  // More padding on tablets and desktop
+  @include media-min-breakpoint(md) {
+    padding: rem(24);
+  }
+
+  @include media-min-breakpoint(lg) {
+    padding: rem(28);
+  }
+
+  // ─── HEADER SECTION ───
+  &__header {
+    @include flex(flex-start, center);
+    gap: rem(12);
+    margin-bottom: rem(20);
+
+    // Larger gap on tablets and up
+    @include media-min-breakpoint(md) {
+      gap: rem(16);
+    }
+  }
+
+  // Icon emoji (e.g., 🏪, ⚡, ⚙️)
+  &__icon {
+    font-size: rem(24);
+    flex-shrink: 0; // Prevent icon from shrinking
+
+    // Larger icon on tablets and up
+    @include media-min-breakpoint(md) {
+      font-size: rem(28);
+    }
+
+    @include media-min-breakpoint(lg) {
+      font-size: rem(32);
+    }
+  }
+
+  // Card title
+  &__title {
+    font-size: rem(18);
+    color: $neutral-darkest;
+    margin: 0;
+
+    // Larger title on tablets and up
+    @include media-min-breakpoint(md) {
+      font-size: rem(20);
+    }
+
+    @include media-min-breakpoint(lg) {
+      font-size: rem(24);
+    }
+  }
+
+  // ─── DESCRIPTION TEXT ───
+  &__description {
+    color: $neutral-darker;
+    line-height: 1.6;
+    margin-bottom: rem(20);
+    font-size: rem(15);
+
+    // Larger text on desktop
+    @include media-min-breakpoint(lg) {
+      font-size: rem(16);
+    }
+  }
+
+  // ─── CODE BLOCK SECTION ───
+  // Code block should take the space it needs
+  app-code-block {
+    flex-grow: 1; // Allow code block to expand and push key-points to bottom
+    margin-bottom: rem(20);
+  }
+
+  // ─── KEY POINTS SECTION ───
+  // Highlighted box with important features, rules, or benefits
+  &__key-points {
+    background: $blue-bg-lighter;
+    border-left: rem(4) solid $primary;
+    padding: rem(20);
+    border-radius: rem(8);
+    margin-top: auto; // Stick to bottom of card
+  }
+
+  // Section title (e.g., "Caratteristiche:", "Best Practices:")
+  &__key-points-title {
+    color: $blue-darker;
+    margin: 0 0 rem(12);
+    font-size: rem(16);
+  }
+
+  // List of key points (no bullets)
+  &__key-points-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  // Individual key point item
+  &__key-point-item {
+    padding: rem(6) 0;
+    color: $blue-darker;
+    font-weight: 500;
+    font-size: rem(15);
+  }
+}
+

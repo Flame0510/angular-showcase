@@ -6,16 +6,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  user-select: none; // Disabilita selezione testo globalmente
 
   // Rimuove l'highlight blu di default su mobile per tutti i bottoni e link
   -webkit-tap-highlight-color: transparent;
   outline: none;
-}
-
-// Riabilita selezione solo per code-block
-.code-block {
-  user-select: text;
 }
 
 body {

@@ -1,0 +1,46 @@
+<!--
+  ConceptCard Component Template
+
+  Displays a card with conceptual information including:
+  - Icon + Title header
+  - Description text
+  - Optional code example
+  - Optional key points list
+-->
+
+<!-- Main card container -->
+<div class="concept-card">
+  <!-- Header section with icon and title -->
+  <div class="concept-card__header">
+    <!-- Emoji icon displayed on the left -->
+    <span class="concept-card__icon">{{ icon }}</span>
+
+    <!-- Card title (e.g., "Store", "Actions") -->
+    <h3 class="concept-card__title">{{ title }}</h3>
+  </div>
+
+  <!-- Main descriptive text explaining the concept -->
+  <p class="concept-card__description">{{ description }}</p>
+
+  <!-- Optional code example section -->
+  @if (code) {
+    <app-code-block [code]="code" [language]="codeLanguage" />
+  }
+
+  <!-- Optional key points section (features, rules, benefits, etc.) -->
+  @if (keyPoints && keyPoints.length > 0) {
+    <div class="concept-card__key-points">
+      <!-- Key points section title -->
+      @if (keyPointsTitle) {
+        <h4 class="concept-card__key-points-title">{{ keyPointsTitle }}</h4>
+      }
+
+      <!-- List of key points -->
+      <ul class="concept-card__key-points-list">
+        @for (point of keyPoints; track $index) {
+          <li class="concept-card__key-point-item">{{ point }}</li>
+        }
+      </ul>
+    </div>
+  }
+</div>
