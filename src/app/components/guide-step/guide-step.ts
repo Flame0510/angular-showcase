@@ -1,3 +1,23 @@
+// COMPONENT TYPE: Presentational
+// SECTION: Shared UI Components
+//
+// ROLE:
+// - Display step-by-step guide sections with numbered badges
+// - Show title, explanation, optional code example, and explanation box
+// - Provide consistent structure for tutorial content
+//
+// PATTERNS USED:
+// - Pure presentational component (@Input only)
+// - Composition with CodeBlock for syntax highlighting
+// - Exported data interface for type safety
+// - Optional nested interfaces for flexible content
+//
+// NOTES FOR CONTRIBUTORS:
+// - Keep this component stateless
+// - All data comes from @Input properties
+// - Used primarily in ngrx-concepts for step-by-step guides
+// - Both codeExample and explanationBox are optional
+
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CodeBlock } from '@components/code-block/code-block';
@@ -5,6 +25,23 @@ import { CodeLanguage } from '@models/code';
 
 /**
  * Interface for GuideStep data structure
+ *
+ * @property stepNumber - Number to display in circular badge
+ * @property title - Step title (can include emoji)
+ * @property explanation - Explanation text for the step
+ * @property codeExample - Optional code example block
+ * @property explanationBox - Optional explanation box with title and points
+ *
+ * @example
+ * ```html
+ * <app-guide-step
+ *   [stepNumber]="1"
+ *   title="Define State Interface"
+ *   explanation="Create TypeScript interfaces that describe the shape of your data."
+ *   [codeExample]="{ title: 'File: store/counter.state.ts', code: stateCode }"
+ *   [explanationBox]="{ title: 'What are we doing?', points: ['Define state structure', 'Set initial values'] }">
+ * </app-guide-step>
+ * ```
  */
 export interface GuideStepData {
   stepNumber: number;
@@ -23,21 +60,6 @@ export interface GuideStepData {
   };
 }
 
-/**
- * GuideStep component for displaying step-by-step instructions
- * with numbered badge, title, explanation, code example, and explanation box.
- *
- * @example
- * ```html
- * <app-guide-step
- *   [stepNumber]="1"
- *   title="Define State Interface"
- *   explanation="Create TypeScript interfaces that describe the shape of your data."
- *   [codeExample]="{ title: 'File: store/counter.state.ts', code: stateCode }"
- *   [explanationBox]="{ title: 'What are we doing?', points: ['Define state structure', 'Set initial values'] }">
- * </app-guide-step>
- * ```
- */
 @Component({
   selector: 'app-guide-step',
   standalone: true,

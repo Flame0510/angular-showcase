@@ -1,3 +1,22 @@
+// COMPONENT TYPE: Container
+// SECTION: State Management - NgRx
+//
+// ROLE:
+// - Demonstrate NgRx state management patterns
+// - Organize multiple NgRx examples with tab navigation
+// - Show concepts, counter demo, and todo demo
+//
+// PATTERNS USED:
+// - Standalone component architecture
+// - Signal-based tab selection
+// - Composition of multiple demo components
+//
+// NOTES FOR CONTRIBUTORS:
+// - Keep this component as a coordinator only
+// - Complex NgRx logic lives in child components
+// - Add new demos as separate components and import here
+// - Maintain consistent tab structure for navigation
+
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PageHeader } from '../page-header/page-header';

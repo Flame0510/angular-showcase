@@ -1,3 +1,25 @@
+// COMPONENT TYPE: Container
+// SECTION: State Management - NgRx Todo Demo
+//
+// ROLE:
+// - Demonstrate advanced NgRx patterns with combineLatest
+// - Show derived selectors (filtered todos, counts)
+// - Mix Signals for local UI state with Observable store state
+// - Illustrate view model pattern for synchronized streams
+//
+// PATTERNS USED:
+// - Smart Component pattern with NgRx Store
+// - View Model pattern using combineLatest
+// - Signal for local UI-only state (input text)
+// - Observable for global business state (todos, filter)
+// - Derived selectors for computed values
+//
+// NOTES FOR CONTRIBUTORS:
+// - combineLatest prevents race conditions with multiple async pipes
+// - Use Signals for UI-only state, Store for business logic state
+// - All todos state lives in store/todo/
+// - Template uses single subscription: @if (vm$ | async; as vm)
+
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -10,15 +32,6 @@ import * as TodoSelectors from '../../store/todo/todo.selectors';
 import * as ActionsLogActions from '../../store/actions-log/actions-log.actions';
 import * as ActionsLogSelectors from '../../store/actions-log/actions-log.selectors';
 
-/**
- * Todo Demo Component - Esempio Avanzato con combineLatest
- *
- * Questo componente dimostra:
- * 1. Pattern Smart Component con NgRx Store
- * 2. Uso di combineLatest per sincronizzare multiple streams
- * 3. Mix di Signals (newTodoText) e Observable (vm$)
- * 4. Selectors derivati (filteredTodos, counts)
- */
 @Component({
   selector: 'app-ngrx-todo-demo',
   standalone: true,
@@ -27,83 +40,78 @@ import * as ActionsLogSelectors from '../../store/actions-log/actions-log.select
   styleUrls: ['./ngrx-todo-demo.scss'],
 })
 export class NgrxTodoDemo {
-  /**
-   * 🎯 VIEW MODEL PATTERN con combineLatest
-   *
-   * Combiniamo tutti gli observable in un unico stream per evitare:
-   * - Race conditions con nested async pipes
-   * - Unmounting del componente quando un observable emette array vuoto
-   *
-   * Il template usa: @if (vm$ | async; as vm) { ... }
-   * Così abbiamo un singolo punto di sottoscrizione sincronizzato
-   */
+  // PATTERN: View Model with combineLatest
+  // PURPOSE:
+  // - Combine all observables into single stream to avoid:
+  //   • Race conditions with nested async pipes
+  //   • Component unmounting when observable emits empty array
+  // - Template uses: @if (vm$ | async; as vm) { ... }
+  // - Single subscription point, all selectors synchronized
   vm$;
 
-  /**
-   * 🔄 LOCAL STATE con Signal
-   * Usiamo un Signal per lo stato locale dell'input (non serve nello Store)
-   * Questo è UI-only state, non business logic state
-   */
+  // PATTERN: Local UI state with Signal
+  // PURPOSE:
+  // - Signal for local input state (no need for Store)
+  // - This is UI-only state, not business logic state
+  // - Avoids Store pollution with ephemeral UI values
   newTodoText = signal('');
 
   constructor(private store: Store<AppState>) {
-    /**
-     * combineLatest emette un oggetto quando TUTTI gli observable hanno emesso almeno una volta
-     * Ogni nuova emissione da qualsiasi selector triggera un nuovo emit combinato
-     */
+    // combineLatest emits object when ALL observables have emitted at least once
+    // Each new emission from any selector triggers a new combined emit
     this.vm$ = combineLatest({
       todoState: this.store.select(TodoSelectors.selectTodoStateFull),
       actionsLog: this.store.select(ActionsLogSelectors.selectLogs),
-      // Selectors derivati: calcolano valori da altri selectors
+      // Derived selectors: compute values from other selectors
       filteredTodos: this.store.select(TodoSelectors.selectFilteredTodos),
       activeTodosCount: this.store.select(TodoSelectors.selectActiveTodosCount),
       completedTodosCount: this.store.select(TodoSelectors.selectCompletedTodosCount),
     });
   }
 
-  // 🚀 ACTIONS: Metodi che dispatchano actions allo Store
+  // 🚀 ACTIONS: Methods that dispatch actions to the Store
 
   /**
-   * Aggiunge un nuovo todo allo Store
-   * Flow: validate → dispatch → reducer aggiunge → selector emette → UI aggiorna
+   * Add a new todo to the Store
+   * Flow: validate → dispatch → reducer adds → selector emits → UI updates
    */
   addTodo() {
     const text = this.newTodoText().trim();
     if (text) {
-      // Dispatch dell'action con payload
+      // Dispatch action with payload
       this.store.dispatch(TodoActions.addTodo({ text }));
-      // Reset dello stato locale
-      this.newTodoText.set('');
+      // Reset local state
+      this.newTodoText.set('';
     }
   }
 
   /**
-   * Toggle dello stato completed di un todo
-   * Il reducer trova il todo per id e inverte il flag completed
+   * Toggle the completed state of a todo
+   * The reducer finds the todo by id and inverts the completed flag
    */
   toggleTodo(id: number) {
     this.store.dispatch(TodoActions.toggleTodo({ id }));
   }
 
   /**
-   * Rimuove un todo dallo Store
-   * Il reducer filtra l'array rimuovendo il todo con questo id
+   * Remove a todo from the Store
+   * The reducer filters the array removing the todo with this id
    */
   deleteTodo(id: number) {
     this.store.dispatch(TodoActions.deleteTodo({ id }));
   }
 
   /**
-   * Cambia il filtro corrente (all | active | completed)
-   * Il selector filteredTodos reagirà emettendo l'array filtrato
+   * Change the current filter (all | active | completed)
+   * The filteredTodos selector will react by emitting the filtered array
    */
   setFilter(filter: 'all' | 'active' | 'completed') {
     this.store.dispatch(TodoActions.setFilter({ filter }));
   }
 
   /**
-   * Rimuove tutti i todo completati in un colpo solo
-   * Il reducer filtra l'array mantenendo solo i todo con completed = false
+   * Remove all completed todos at once
+   * The reducer filters the array keeping only todos with completed = false
    */
   clearCompleted() {
     this.store.dispatch(TodoActions.clearCompleted());

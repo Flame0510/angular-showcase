@@ -1,17 +1,28 @@
+// COMPONENT TYPE: Container
+// SECTION: HTTP and Async Operations
+//
+// ROLE:
+// - Demonstrate HttpClient usage with Service Facade pattern
+// - Show complete CRUD operations (GET, POST, PUT, DELETE)
+// - Handle loading states, errors, and data management
+//
+// PATTERNS USED:
+// - Service Facade pattern (PostsService abstracts HTTP details)
+// - Signals for reactive state management
+// - Modern inject() function for dependency injection
+// - Observable subscription with manual state updates
+//
+// NOTES FOR CONTRIBUTORS:
+// - Keep HTTP logic in services, not in components
+// - Use signals for state (loading, error, data)
+// - Show code examples with CodeBlock component
+// - Handle all async states (loading, success, error)
+
 import { Component, signal, inject } from '@angular/core';
 import { PostsService, Post } from '../../services/posts.service';
 import { PageHeader } from '../page-header/page-header';
 import { CodeBlock } from '../components/code-block/code-block';
 
-/**
- * Componente che dimostra l'uso di HttpClient con Service Facade
- *
- * Questo componente mostra:
- * - Come iniettare e usare un service
- * - Come gestire Observable con async pipe o subscribe
- * - Operazioni CRUD complete (GET, POST, PUT, DELETE)
- * - Best practices per HTTP in Angular
- */
 @Component({
   selector: 'app-http-example',
   imports: [PageHeader, CodeBlock],
@@ -19,26 +30,26 @@ import { CodeBlock } from '../components/code-block/code-block';
   styleUrl: './http-example.scss',
 })
 export class HttpExample {
-  // Dependency Injection del service PostsService
+  // Dependency Injection of PostsService
   private postsService = inject(PostsService);
 
   // ═══════════════════════════════════════════════════════════════════
-  // STATE - Usiamo Signals per la reattività
+  // STATE - Using Signals for reactivity
   // ═══════════════════════════════════════════════════════════════════
-  posts = signal<Post[]>([]); // Lista di tutti i post
-  selectedPost = signal<Post | null>(null); // Post selezionato per visualizzazione
-  loading = signal(false); // Indicatore di caricamento
-  error = signal<string | null>(null); // Messaggio di errore
+  posts = signal<Post[]>([]); // List of all posts
+  selectedPost = signal<Post | null>(null); // Selected post for display
+  loading = signal(false); // Loading indicator
+  error = signal<string | null>(null); // Error message
 
-  // Form data per creare un nuovo post
+  // Form data to create a new post
   newPost = signal({
     userId: 1,
     title: '',
     body: '',
   });
 
-  // Codice di esempio per la sezione
-  serviceExampleCode = `// 1. Definisci il Service Facade
+  // Example code for the section
+  serviceExampleCode = `// 1. Define the Service Facade
 @Injectable({ providedIn: 'root' })
 export class PostsService {
   private http = inject(HttpClient);
@@ -48,7 +59,7 @@ export class PostsService {
   }
 }
 
-// 2. Usa il Service nel Componente
+// 2. Use the Service in the Component
 @Component({ ... })
 export class MyComponent {
   private postsService = inject(PostsService);
@@ -62,25 +73,25 @@ export class MyComponent {
 }`;
 
   // ═══════════════════════════════════════════════════════════════════
-  // METODI HTTP - Esempi di tutte le operazioni CRUD
+  // HTTP METHODS - Examples of all CRUD operations
   // ═══════════════════════════════════════════════════════════════════
 
   /**
-   * GET - Carica tutti i post
-   * Esempio di come gestire una richiesta HTTP con Observable
+   * GET - Load all posts
+   * Example of how to handle an HTTP request with Observable
    */
   loadPosts() {
     this.loading.set(true);
     this.error.set(null);
 
-    // subscribe() permette di "ascoltare" l'Observable
+    // subscribe() allows "listening" to the Observable
     this.postsService.getPosts().subscribe({
-      // next: chiamata quando arrivano i dati
+      // next: called when data arrives
       next: (posts) => {
-        this.posts.set(posts.slice(0, 10)); // Prendiamo solo i primi 10 per brevità
+        this.posts.set(posts.slice(0, 10)); // Take only first 10 for brevity
         this.loading.set(false);
       },
-      // error: chiamata in caso di errore HTTP
+      // error: called in case of HTTP error
       error: (err) => {
         this.error.set('Errore nel caricamento dei post: ' + err.message);
         this.loading.set(false);
@@ -90,7 +101,7 @@ export class MyComponent {
   }
 
   /**
-   * GET by ID - Carica un singolo post
+   * GET by ID - Load a single post
    */
   loadPost(id: number) {
     this.loading.set(true);
@@ -109,8 +120,8 @@ export class MyComponent {
   }
 
   /**
-   * POST - Crea un nuovo post
-   * JSONPlaceholder simula la creazione, restituisce un ID finto
+   * POST - Create a new post
+   * JSONPlaceholder simulates creation, returns a fake ID
    */
   createPost() {
     const post = this.newPost();
@@ -125,10 +136,10 @@ export class MyComponent {
 
     this.postsService.createPost(post).subscribe({
       next: (createdPost) => {
-        // Aggiungiamo il post creato all'inizio della lista
+        // Add created post to the beginning of the list
         this.posts.update((posts) => [createdPost, ...posts]);
 
-        // Reset del form
+        // Reset form
         this.newPost.set({ userId: 1, title: '', body: '' });
         this.loading.set(false);
 
@@ -142,7 +153,7 @@ export class MyComponent {
   }
 
   /**
-   * PUT - Aggiorna un post esistente
+   * PUT - Update an existing post
    */
   updatePost(post: Post) {
     const updatedPost = {
@@ -154,22 +165,20 @@ export class MyComponent {
 
     this.postsService.updatePost(post.id, updatedPost).subscribe({
       next: (updated) => {
-        // Aggiorniamo il post nella lista
-        this.posts.update((posts) =>
-          posts.map((p) => (p.id === updated.id ? updated : p))
-        );
+        // Update post in the list
+        this.posts.update((posts) => posts.map((p) => (p.id === updated.id ? updated : p)));
         this.loading.set(false);
         alert('Post aggiornato con successo!');
       },
       error: (err) => {
-        this.error.set('Errore nell\'aggiornamento: ' + err.message);
+        this.error.set("Errore nell'aggiornamento: " + err.message);
         this.loading.set(false);
       },
     });
   }
 
   /**
-   * DELETE - Elimina un post
+   * DELETE - Delete a post
    */
   deletePost(id: number) {
     if (!confirm('Sei sicuro di voler eliminare questo post?')) {
@@ -180,20 +189,20 @@ export class MyComponent {
 
     this.postsService.deletePost(id).subscribe({
       next: () => {
-        // Rimuoviamo il post dalla lista
+        // Remove post from the list
         this.posts.update((posts) => posts.filter((p) => p.id !== id));
         this.loading.set(false);
         alert('Post eliminato con successo!');
       },
       error: (err) => {
-        this.error.set('Errore nell\'eliminazione: ' + err.message);
+        this.error.set("Errore nell'eliminazione: " + err.message);
         this.loading.set(false);
       },
     });
   }
 
   /**
-   * Aggiorna il campo title del form
+   * Update the title field of the form
    */
   updateTitle(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -201,7 +210,7 @@ export class MyComponent {
   }
 
   /**
-   * Aggiorna il campo body del form
+   * Update the body field of the form
    */
   updateBody(event: Event) {
     const textarea = event.target as HTMLTextAreaElement;

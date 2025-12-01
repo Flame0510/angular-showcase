@@ -204,7 +204,7 @@
         transform: translateX(-50%) translateY(0);
       }
 
-      // Ultimo elemento - allinea a destra
+      // Last element - align right
       &:last-child .dropdown-menu {
         left: auto;
         right: 0;

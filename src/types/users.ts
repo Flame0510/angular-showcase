@@ -1,4 +1,4 @@
-// Interface che definisce la struttura di un utente
+// Interface that defines the structure of a user
 export interface User {
   id: number;
   name: string;
@@ -12,7 +12,7 @@ export interface User {
   company: Company;
 }
 
-// Interface per l'indirizzo dell'utente
+// Interface for user address
 export interface Address {
   street: string;
   suite: string;
@@ -21,13 +21,13 @@ export interface Address {
   geo: Geo;
 }
 
-// Interface per le coordinate geografiche
+// Interface for geographic coordinates
 export interface Geo {
   lat: string;
   lng: string;
 }
 
-// Interface per le informazioni aziendali
+// Interface for company information
 export interface Company {
   name: string;
   catchPhrase: string;

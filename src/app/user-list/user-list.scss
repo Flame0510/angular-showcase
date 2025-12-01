@@ -1,9 +1,9 @@
-// Contenitore principale della lista utenti
+// Main container for user list
 .user-list {
   max-width: 1400px;
   margin: 0 auto;
 
-  // Toolbar con search e pulsante ricarica
+  // Toolbar with search and reload button
   &__toolbar {
     display: flex;
     gap: 16px;
@@ -16,7 +16,7 @@
     box-shadow: 0 0 32px rgba(0, 0, 0, 0.1);
   }
 
-  // Pulsante ricarica con icona
+  // Reload button with icon
   &__reload-btn {
     display: flex;
     align-items: center;
@@ -56,7 +56,7 @@
     }
   }
 
-  // Griglia delle card utente
+  // User cards grid
   &__grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -67,7 +67,7 @@
     }
   }
 
-  // Stato vuoto con icona
+  // Empty state with icon
   &__empty {
     grid-column: 1 / -1;
     display: flex;
@@ -104,7 +104,7 @@
   }
 }
 
-// Search box con icona
+// Search box with icon
 .search-box {
   display: flex;
 

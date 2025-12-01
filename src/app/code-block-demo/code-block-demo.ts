@@ -1,3 +1,22 @@
+// COMPONENT TYPE: Container
+// SECTION: Component Showcase
+//
+// ROLE:
+// - Demonstrate CodeBlock component with various languages
+// - Provide example code snippets for syntax highlighting
+// - Showcase copy-to-clipboard functionality
+//
+// PATTERNS USED:
+// - Container component with example data
+// - Static code string examples
+// - Multi-language code demonstration
+//
+// NOTES FOR CONTRIBUTORS:
+// - Add new language examples as properties
+// - Keep code examples realistic and educational
+// - Escape template literals properly with \`
+// - This is a demo page, not a route in main navigation
+
 import { Component } from '@angular/core';
 import { PageHeader } from '../page-header/page-header';
 import { CodeBlock } from '../components/code-block/code-block';

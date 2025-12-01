@@ -1,10 +1,10 @@
-// Container principale
+// Main container
 .http-container {
   max-width: 1200px;
   margin: 0 auto;
 }
 
-// Sezioni
+// Sections
 .section {
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(12px);
@@ -63,7 +63,7 @@
   }
 }
 
-// Messaggi di stato
+// Status messages
 .error-message {
   background: rgba(231, 76, 60, 0.3);
   border: 1px solid rgba(231, 76, 60, 0.5);
@@ -103,7 +103,7 @@
   }
 }
 
-// Form per creare post
+// Form to create post
 .create-form {
   display: flex;
   flex-direction: column;
@@ -205,7 +205,7 @@
   }
 }
 
-// Grid dei post
+// Posts grid
 .posts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -283,7 +283,7 @@
   font-style: italic;
 }
 
-// Blocco codice
+// Code block
 .code-inline {
   background: rgba(0, 0, 0, 0.3);
   color: #ffd700;
@@ -329,7 +329,7 @@ pre {
   color: #ce9178;
 }
 
-// Lista benefici
+// Benefits list
 .benefits-list {
   display: flex;
   flex-direction: column;

@@ -1,3 +1,23 @@
+// COMPONENT TYPE: Presentational
+// SECTION: Shared UI Components
+//
+// ROLE:
+// - Display code snippets with syntax highlighting
+// - Support multiple languages (TypeScript, JavaScript, HTML, CSS, JSON)
+// - Provide copy-to-clipboard functionality
+//
+// PATTERNS USED:
+// - Pure presentational component with @Input() only
+// - Custom syntax highlighting implementation (token-based)
+// - DomSanitizer for safe HTML rendering
+// - Signal for copy feedback state
+//
+// NOTES FOR CONTRIBUTORS:
+// - Syntax highlighting is custom-built, not library-based
+// - Add new languages by extending getPatterns() method
+// - Keep token patterns in order (most specific to least specific)
+// - Sanitize all HTML to prevent XSS attacks
+
 import { Component, Input, signal, inject, SecurityContext } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';

@@ -1,5 +1,5 @@
-// Il componente Icon renderizza solo l'SVG senza wrapper
-// Le dimensioni sono controllate dal parent tramite width/height
+// The Icon component renders only the SVG without wrapper
+// Dimensions are controlled by parent via width/height
 
 :host {
   display: inline-flex;

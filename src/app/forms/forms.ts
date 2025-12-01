@@ -1,3 +1,22 @@
+// COMPONENT TYPE: Container
+// SECTION: Angular Basics
+//
+// ROLE:
+// - Demonstrate Angular Reactive Forms with validation
+// - Show FormBuilder, FormGroup, and FormControl usage
+// - Provide real-time validation feedback with visual indicators
+//
+// PATTERNS USED:
+// - Reactive Forms pattern (FormBuilder, FormGroup)
+// - Built-in and custom validators
+// - Real-time validation with visual feedback (icons, error messages)
+//
+// NOTES FOR CONTRIBUTORS:
+// - Use Reactive Forms (not Template-driven) for consistency
+// - Add validators inline when creating the form group
+// - Keep validation logic simple and educational
+// - Show validation states visually (check/error icons)
+
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
@@ -19,7 +38,7 @@ import { Icon } from '../components/icon/icon';
 export class Forms {
   reactiveForm: FormGroup;
 
-  // Inietta FormBuilder per creare il form reattivo nel costruttore
+  // Inject FormBuilder to create reactive form in constructor
   constructor(private fb: FormBuilder) {
     // Configura il form reattivo con validazioni
     this.reactiveForm = this.fb.group({

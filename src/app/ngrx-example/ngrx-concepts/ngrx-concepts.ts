@@ -1,9 +1,34 @@
+// COMPONENT TYPE: Presentational
+// SECTION: State Management - NgRx Concepts
+//
+// ROLE:
+// - Explain NgRx core concepts (Store, Actions, Reducers, Selectors)
+// - Provide code examples for each NgRx building block
+// - Compare centralized vs feature-based store patterns
+// - Demonstrate Redux DevTools integration
+//
+// PATTERNS USED:
+// - Pure presentational component (no store interaction)
+// - Signal-based pattern selection state
+// - Composition with ConceptCard and GuideStep components
+// - Code examples with CodeBlock component
+//
+// NOTES FOR CONTRIBUTORS:
+// - This is educational content only, no actual store interaction
+// - Code examples should match actual implementation in counter/todo demos
+// - Keep explanations beginner-friendly
+// - Add new patterns to StorePattern type if needed
+
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CodeBlock } from '@components/code-block/code-block';
 import { ConceptCard, ConceptCardData } from '@components/concept-card/concept-card';
 import { GuideStep, GuideStepData } from '@components/guide-step/guide-step';
 
+// PATTERN: Store pattern type definition
+// PURPOSE:
+// - Defines available store organization patterns
+// - Used for pattern selection and conditional rendering
 type StorePattern = 'centralized' | 'feature' | null;
 
 @Component({
@@ -95,7 +120,7 @@ import * as CounterActions from './counter.actions';
 @Injectable()
 export class CounterEffects {
 
-  // Salva il valore nel localStorage
+  // Save value to localStorage
   saveCounter$ = createEffect(() =>
     this.actions$.pipe(
       ofType(
@@ -104,14 +129,14 @@ export class CounterEffects {
         CounterActions.reset
       ),
       tap(() => {
-        // Side effect: salvare nello storage
-        console.log('Salvando counter...');
+        // Side effect: save to storage
+        console.log('Saving counter...');
       })
     ),
     { dispatch: false }
   );
 
-  // Carica il valore all'avvio
+  // Load value on startup
   loadCounter$ = createEffect(() =>
     this.actions$.pipe(
       ofType('[App] Init'),
@@ -353,8 +378,8 @@ export const selectHistory = createSelector(
   conceptCards: ConceptCardData[] = [
     {
       icon: '🏪',
-      title: 'Store (Centralizzato)',
-      description: 'Il contenitore centrale che mantiene l\'intero stato dell\'applicazione. È l\'unica fonte di verità (single source of truth). In questo progetto, usiamo uno store centralizzato con reducer combinati (pattern Redux).',
+      title: 'Store (Centralized)',
+      description: 'The central container that holds the entire application state. It is the single source of truth. In this project, we use a centralized store with combined reducers (Redux pattern).',
       code: this.storeCode,
       keyPointsTitle: 'Caratteristiche:',
       keyPoints: ['✓ Immutabile', '✓ Prevedibile', '✓ Centralizzato', '✓ Serializzabile']
@@ -362,7 +387,7 @@ export const selectHistory = createSelector(
     {
       icon: '⚡',
       title: 'Actions',
-      description: 'Eventi che descrivono qualcosa che è successo nell\'applicazione. Sono l\'unico modo per inviare dati allo store.',
+      description: 'Events that describe something that happened in the application. They are the only way to send data to the store.',
       code: this.actionsCode,
       keyPointsTitle: 'Best Practices:',
       keyPoints: ['✓ Usa nomi descrittivi', '✓ Includi la sorgente [Source]', '✓ Passa dati via props', '✓ Mantienile semplici']
@@ -370,7 +395,7 @@ export const selectHistory = createSelector(
     {
       icon: '⚙️',
       title: 'Reducers',
-      description: 'Funzioni pure che prendono lo stato corrente e un\'action, e ritornano un nuovo stato. Sono responsabili della gestione delle transizioni di stato.',
+      description: 'Pure functions that take the current state and an action, and return a new state. They are responsible for managing state transitions.',
       code: this.reducerCode,
       keyPointsTitle: 'Regole:',
       keyPoints: ['✓ Funzioni pure', '✓ No side effects', '✓ No mutazioni dirette', '✓ Ritornano nuovo stato']
@@ -378,7 +403,7 @@ export const selectHistory = createSelector(
     {
       icon: '🔍',
       title: 'Selectors',
-      description: 'Funzioni pure per selezionare e derivare dati dallo store. Sono memoizzati per performance ottimali.',
+      description: 'Pure functions to select and derive data from the store. They are memoized for optimal performance.',
       code: this.selectorsCode,
       keyPointsTitle: 'Vantaggi:',
       keyPoints: ['✓ Memoizzazione', '✓ Riutilizzabili', '✓ Composizione', '✓ Testabili']
@@ -386,15 +411,15 @@ export const selectHistory = createSelector(
     {
       icon: '🌊',
       title: 'Effects',
-      description: 'Gestiscono side effects come chiamate HTTP, routing, storage, ecc. Ascoltano le actions e possono emettere nuove actions.',
+      description: 'Handle side effects like HTTP calls, routing, storage, etc. They listen to actions and can emit new actions.',
       code: this.effectsCode,
       keyPointsTitle: 'Casi d\'uso:',
       keyPoints: ['✓ Chiamate API', '✓ WebSocket', '✓ LocalStorage', '✓ Routing']
     },
     {
       icon: '🧩',
-      title: 'Integrazione Componenti',
-      description: 'Come integrare NgRx nei componenti Angular usando l\'injection dello Store e i selectors.',
+      title: 'Component Integration',
+      description: 'How to integrate NgRx into Angular components using Store injection and selectors.',
       code: this.componentCode,
       keyPointsTitle: 'Pattern:',
       keyPoints: ['✓ Inject Store', '✓ Usa selectors', '✓ Dispatch actions', '✓ Async pipe']
@@ -405,148 +430,148 @@ export const selectHistory = createSelector(
   centralizedSteps: GuideStepData[] = [
     {
       stepNumber: 1,
-      title: '📋 Definisci le Interfacce di Stato',
-      explanation: 'Il primo passo è creare le interfacce TypeScript che descrivono la forma dei dati. Ogni <strong>feature</strong> (funzionalità) della tua app avrà la sua interfaccia di stato.',
+      title: '📋 Define State Interfaces',
+      explanation: 'The first step is to create TypeScript interfaces that describe the shape of the data. Each <strong>feature</strong> (functionality) of your app will have its own state interface.',
       codeExample: {
         title: 'Esempio: Counter State',
         description: 'Creiamo uno stato per un semplice contatore con storico:',
         code: this.storeCode
       },
       explanationBox: {
-        title: '💡 Cosa stiamo facendo?',
+        title: '💡 What are we doing?',
         points: [
-          '<code>CounterState</code>: definisce la struttura dei dati del counter',
-          '<code>count</code>: il valore corrente del contatore',
-          '<code>history</code>: array che tiene traccia di tutti i valori passati',
-          '<code>initialState</code>: stato iniziale quando l\'app parte'
+          '<code>CounterState</code>: defines the counter data structure',
+          '<code>count</code>: the current counter value',
+          '<code>history</code>: array that tracks all past values',
+          '<code>initialState</code>: initial state when the app starts'
         ]
       }
     },
     {
       stepNumber: 2,
-      title: '🌍 Crea l\'Interfaccia dello Stato Globale',
-      explanation: 'Ora combiniamo tutti gli stati delle feature in un\'unica interfaccia globale. Questo è il "contenitore principale" che contiene tutto lo stato dell\'applicazione.',
+      title: '🌍 Create Global State Interface',
+      explanation: 'Now we combine all feature states into a single global interface. This is the "main container" that holds the entire application state.',
       codeExample: {
         title: 'File: store/app.state.ts',
         code: this.centralizedStateCode
       },
       explanationBox: {
-        title: '💡 Perché facciamo questo?',
+        title: '💡 Why do we do this?',
         points: [
-          'Ogni feature ha la sua "fetta" nello stato globale',
-          '<code>counter</code>, <code>todo</code>, <code>actionsLog</code> sono chiavi dell\'oggetto globale',
-          'TypeScript ci dà autocompletamento e type-safety',
-          'Lo state tree finale sarà: <code>&#123; counter: &#123;...&#125;, todo: &#123;...&#125;, actionsLog: &#123;...&#125; &#125;</code>'
+          'Each feature has its own "slice" in the global state',
+          '<code>counter</code>, <code>todo</code>, <code>actionsLog</code> are keys of the global object',
+          'TypeScript gives us autocompletion and type-safety',
+          'The final state tree will be: <code>&#123; counter: &#123;...&#125;, todo: &#123;...&#125;, actionsLog: &#123;...&#125; &#125;</code>'
         ]
       }
     },
     {
       stepNumber: 3,
-      title: '⚡ Definisci le Actions',
-      explanation: 'Le <strong>Actions</strong> sono eventi che descrivono "cosa è successo" nell\'app. Sono l\'unico modo per inviare informazioni allo store. Pensa a loro come "comandi" o "notifiche".',
+      title: '⚡ Define Actions',
+      explanation: 'The <strong>Actions</strong> are events that describe "what happened" in the app. They are the only way to send information to the store. Think of them as "commands" or "notifications".',
       codeExample: {
         title: 'File: store/counter/counter.actions.ts',
         code: this.actionsCode
       },
       explanationBox: {
-        title: '💡 Anatomia di un\'Action:',
+        title: '💡 Anatomy of an Action:',
         points: [
-          '<code>[Counter]</code>: prefisso che identifica la sorgente (buona pratica)',
-          '<code>Increment</code>: nome descrittivo dell\'azione',
-          '<code>props</code>: dati opzionali da passare (es. <code>setValue</code> riceve un valore)',
-          'Le actions sono <strong>immutabili</strong> e <strong>serializzabili</strong>'
+          '<code>[Counter]</code>: prefix that identifies the source (best practice)',
+          '<code>Increment</code>: descriptive name of the action',
+          '<code>props</code>: optional data to pass (e.g. <code>setValue</code> receives a value)',
+          'Actions are <strong>immutable</strong> and <strong>serializable</strong>'
         ]
       }
     },
     {
       stepNumber: 4,
-      title: '⚙️ Crea i Reducers',
-      explanation: 'I <strong>Reducers</strong> sono funzioni pure che prendono lo stato corrente e un\'action, e ritornano un nuovo stato. NON modificano mai lo stato esistente, ma ne creano una copia aggiornata.',
+      title: '⚙️ Create Reducers',
+      explanation: 'The <strong>Reducers</strong> are pure functions that take the current state and an action, and return a new state. They NEVER modify the existing state, but create an updated copy of it.',
       codeExample: {
         title: 'File: store/counter/counter.reducer.ts',
         code: this.reducerCode
       },
       explanationBox: {
-        title: '💡 Regole d\'oro dei Reducers:',
+        title: '💡 Golden Rules of Reducers:',
         points: [
-          '<strong>Funzioni pure</strong>: stesso input = stesso output, sempre',
-          '<strong>Immutabilità</strong>: usa spread operator <code>{{ \'{\'  }}...state{{ \'}\'  }}</code> per copiare',
-          '<strong>No side effects</strong>: no API calls, no console.log, no modifiche esterne',
-          '<code>on()</code>: associa un\'action a una funzione che aggiorna lo stato'
+          '<strong>Pure functions</strong>: same input = same output, always',
+          '<strong>Immutability</strong>: use spread operator <code>{{ \'{\'  }}...state{{ \'}\'  }}</code> to copy',
+          '<strong>No side effects</strong>: no API calls, no console.log, no external modifications',
+          '<code>on()</code>: associates an action to a function that updates the state'
         ]
       }
     },
     {
       stepNumber: 5,
-      title: '🔗 Combina i Reducers',
-      explanation: 'Ora uniamo tutti i reducers delle feature in un unico oggetto usando <code>ActionReducerMap</code>. Questo crea la mappa completa di come ogni fetta di stato viene aggiornata.',
+      title: '🔗 Combine Reducers',
+      explanation: 'Now we unite all feature reducers into a single object using <code>ActionReducerMap</code>. This creates the complete map of how each state slice is updated.',
       codeExample: {
         title: 'File: store/app.reducers.ts',
         code: this.combinedReducersCode
       },
       explanationBox: {
-        title: '💡 Come funziona?',
+        title: '💡 How does it work?',
         points: [
-          'Ogni chiave (<code>counter</code>, <code>todo</code>, ecc.) corrisponde a una feature',
-          'Ogni valore è il reducer che gestisce quella feature',
-          'NgRx chiamerà il reducer giusto quando arriva un\'action',
-          'Questo è il "ponte" tra lo stato globale e i reducers individuali'
+          'Each key (<code>counter</code>, <code>todo</code>, etc.) corresponds to a feature',
+          'Each value is the reducer that manages that feature',
+          'NgRx will call the right reducer when an action arrives',
+          'This is the "bridge" between the global state and individual reducers'
         ]
       }
     },
     {
       stepNumber: 6,
-      title: '🚀 Configura lo Store nell\'App',
-      explanation: 'Ora dobbiamo "registrare" lo store nell\'applicazione Angular usando <code>provideStore()</code>. Questo rende lo store disponibile in tutta l\'app tramite dependency injection.',
+      title: '🚀 Configure Store in App',
+      explanation: 'Now we need to "register" the store in the Angular application using <code>provideStore()</code>. This makes the store available throughout the app via dependency injection.',
       codeExample: {
         title: 'File: app.config.ts',
         code: this.provideStoreCode
       },
       explanationBox: {
-        title: '💡 Cosa fa questo codice?',
+        title: '💡 What does this code do?',
         points: [
-          '<code>provideStore(appReducers)</code>: inizializza lo store con i reducers combinati',
-          '<code>provideStoreDevtools()</code>: attiva le DevTools per debug (solo in dev mode)',
-          '<code>maxAge: 25</code>: tiene in memoria le ultime 25 actions per il debug',
-          'Da questo momento lo store è pronto e accessibile ovunque!'
+          '<code>provideStore(appReducers)</code>: initializes the store with combined reducers',
+          '<code>provideStoreDevtools()</code>: activates DevTools for debugging (only in dev mode)',
+          '<code>maxAge: 25</code>: keeps the last 25 actions in memory for debugging',
+          'From this moment the store is ready and accessible everywhere!'
         ]
       }
     },
     {
       stepNumber: 7,
-      title: '🔍 Crea i Selectors',
-      explanation: 'I <strong>Selectors</strong> sono funzioni che "estraggono" dati specifici dallo store. Sono <strong>memoizzati</strong>, cioè cachano i risultati per evitare calcoli inutili.',
+      title: '🔍 Create Selectors',
+      explanation: 'The <strong>Selectors</strong> are functions that "extract" specific data from the store. They are <strong>memoized</strong>, meaning they cache results to avoid unnecessary calculations.',
       codeExample: {
         title: 'File: store/counter/counter.selectors.ts',
         code: this.centralizedSelectorsCode
       },
       explanationBox: {
-        title: '💡 Perché usare i Selectors?',
+        title: '💡 Why use Selectors?',
         points: [
-          '<strong>Memoizzazione</strong>: calcola solo se lo stato cambia, altrimenti usa cache',
-          '<strong>Riutilizzabilità</strong>: definisci una volta, usa ovunque',
-          '<strong>Composizione</strong>: puoi creare selectors complessi da altri selectors',
-          '<strong>Type-safety</strong>: TypeScript sa esattamente cosa ritornano'
+          '<strong>Memoization</strong>: calculates only if state changes, otherwise uses cache',
+          '<strong>Reusability</strong>: define once, use everywhere',
+          '<strong>Composition</strong>: you can create complex selectors from other selectors',
+          '<strong>Type-safety</strong>: TypeScript knows exactly what they return'
         ]
       }
     },
     {
       stepNumber: 8,
-      title: '🧩 Usa lo Store nei Componenti',
-      explanation: 'Finalmente! Ora possiamo usare lo store nei componenti per leggere lo stato e inviare actions.',
+      title: '🧩 Use Store in Components',
+      explanation: 'Finally! Now we can use the store in components to read state and dispatch actions.',
       codeExample: {
         title: 'File: counter.component.ts',
         code: this.componentCode
       },
       explanationBox: {
-        title: '💡 Il ciclo completo:',
+        title: '💡 The complete cycle:',
         points: [
-          'Component <strong>inietta</strong> lo Store nel constructor',
-          'Usa <code>store.select()</code> per <strong>leggere</strong> lo stato (con selector)',
-          'Usa <code>store.dispatch()</code> per <strong>inviare</strong> actions',
-          'Il reducer <strong>aggiorna</strong> lo stato',
-          'Il selector <strong>notifica</strong> il component del cambiamento',
-          'La UI si <strong>aggiorna</strong> automaticamente (grazie all\'async pipe!)'
+          'Component <strong>injects</strong> the Store in the constructor',
+          'Uses <code>store.select()</code> to <strong>read</strong> the state (with selector)',
+          'Uses <code>store.dispatch()</code> to <strong>send</strong> actions',
+          'The reducer <strong>updates</strong> the state',
+          'The selector <strong>notifies</strong> the component of the change',
+          'The UI <strong>updates</strong> automatically (thanks to the async pipe!)'
         ]
       }
     }
@@ -556,104 +581,104 @@ export const selectHistory = createSelector(
   featureSteps: GuideStepData[] = [
     {
       stepNumber: 1,
-      title: '📋 Definisci lo Stato della Feature',
-      explanation: 'Diversamente dallo store centralizzato, ogni feature definisce solo il <strong>proprio</strong> stato, senza conoscere lo stato di altre features. Questo garantisce isolamento completo.',
+      title: '📋 Define Feature State',
+      explanation: 'Unlike the centralized store, each feature defines only its <strong>own</strong> state, without knowing the state of other features. This guarantees complete isolation.',
       codeExample: {
         title: 'File: features/counter/store/counter.state.ts',
         code: this.featureStateCode
       },
       explanationBox: {
-        title: '💡 Differenze chiave:',
+        title: '💡 Key differences:',
         points: [
-          'Nessuna interfaccia <code>AppState</code> globale',
-          'Ogni feature è <strong>auto-contenuta</strong>',
-          'Lo stato esiste solo quando il modulo è caricato (lazy-loading)',
-          'Perfetto per features che non condividono mai dati'
+          'No global <code>AppState</code> interface',
+          'Each feature is <strong>self-contained</strong>',
+          'The state exists only when the module is loaded (lazy-loading)',
+          'Perfect for features that never share data'
         ]
       }
     },
     {
       stepNumber: 2,
-      title: '⚙️ Crea Actions e Reducers (identico allo store centralizzato)',
-      explanation: 'Le actions e i reducers funzionano esattamente come nello store centralizzato. La differenza sta in <strong>come</strong> vengono registrati nell\'app.',
+      title: '⚙️ Create Actions and Reducers (identical to centralized store)',
+      explanation: 'Actions and reducers work exactly like in the centralized store. The difference lies in <strong>how</strong> they are registered in the app.',
       codeExample: {
         title: 'File: features/counter/store/counter.reducer.ts',
         code: this.featureReducerCode
       },
       explanationBox: {
-        title: '💡 Nota importante:',
-        content: 'Il codice del reducer è identico al centralizzato. La "magia" avviene nella registrazione, che vedremo nel prossimo step!'
+        title: '💡 Important note:',
+        content: 'The reducer code is identical to the centralized one. The "magic" happens in the registration, which we will see in the next step!'
       }
     },
     {
       stepNumber: 3,
-      title: '🌍 Setup dello Store Root (Vuoto)',
-      explanation: 'Con i Feature Stores, lo store root parte <strong>vuoto</strong>. Ogni feature si registrerà dinamicamente quando viene caricata. Questo permette di caricare solo lo stato necessario.',
+      title: '🌍 Root Store Setup (Empty)',
+      explanation: 'With Feature Stores, the root store starts <strong>empty</strong>. Each feature will register dynamically when loaded. This allows loading only the necessary state.',
       codeExample: {
         title: 'File: app.config.ts',
         code: this.featureProvideCode
       },
       explanationBox: {
-        title: '💡 Perché uno store vuoto?',
+        title: '💡 Why an empty store?',
         points: [
-          '<code>provideStore(&#123;&#125;)</code>: inizializza lo store senza stato iniziale',
-          'Le features aggiungeranno il loro stato quando necessario',
-          '<strong>Bundle size più piccolo</strong> all\'avvio',
-          'Perfetto per <strong>lazy-loading</strong>: carica solo ciò che serve'
+          '<code>provideStore(&#123;&#125;)</code>: initializes the store without initial state',
+          'Features will add their state when needed',
+          '<strong>Smaller bundle size</strong> at startup',
+          'Perfect for <strong>lazy-loading</strong>: load only what is needed'
         ]
       }
     },
     {
       stepNumber: 4,
-      title: '🔌 Registra la Feature Store (Lazy-Loading)',
-      explanation: 'Questo è il cuore del pattern Feature Store! Quando una route viene caricata, registra dinamicamente il suo stato nello store usando <code>provideState()</code>.',
+      title: '🔌 Register Feature Store (Lazy-Loading)',
+      explanation: 'This is the heart of the Feature Store pattern! When a route is loaded, it dynamically registers its state in the store using <code>provideState()</code>.',
       codeExample: {
         title: 'File: features/counter/counter.routes.ts',
         code: this.featureModuleCode
       },
       explanationBox: {
-        title: '💡 Come funziona?',
+        title: '💡 How does it work?',
         points: [
-          'Quando l\'utente naviga alla route, Angular carica il modulo',
-          '<code>provideState(\'counter\', counterReducer)</code>: registra lo stato nello store',
-          'Lo stato \'counter\' appare dinamicamente nello store globale',
-          'Quando l\'utente lascia la route, lo stato può essere mantenuto o rimosso'
+          'When the user navigates to the route, Angular loads the module',
+          '<code>provideState(\'counter\', counterReducer)</code>: registers the state in the store',
+          'The \'counter\' state appears dynamically in the global store',
+          'When the user leaves the route, the state can be kept or removed'
         ]
       }
     },
     {
       stepNumber: 5,
-      title: '🔍 Crea i Selectors con createFeatureSelector',
-      explanation: 'Per i Feature Stores, usiamo <code>createFeatureSelector</code> invece di selezionare manualmente dallo stato globale. NgRx sa trovare automaticamente la feature corretta.',
+      title: '🔍 Create Selectors with createFeatureSelector',
+      explanation: 'For Feature Stores, we use <code>createFeatureSelector</code> instead of manually selecting from the global state. NgRx knows how to automatically find the correct feature.',
       codeExample: {
         title: 'File: features/counter/store/counter.selectors.ts',
         code: this.featureSelectorCode
       },
       explanationBox: {
-        title: '💡 Differenze con i selectors centralizzati:',
+        title: '💡 Differences with centralized selectors:',
         points: [
-          '<code>createFeatureSelector(\'counter\')</code>: seleziona automaticamente la feature',
-          'Non serve definire manualmente <code>(state: AppState) => state.counter</code>',
-          'Più conciso e auto-documentante',
-          'Il resto funziona identicamente (memoizzazione, composizione)'
+          '<code>createFeatureSelector(\'counter\')</code>: automatically selects the feature',
+          'No need to manually define <code>(state: AppState) => state.counter</code>',
+          'More concise and self-documenting',
+          'The rest works identically (memoization, composition)'
         ]
       }
     },
     {
       stepNumber: 6,
-      title: '🧩 Usa lo Store nei Componenti (identico!)',
-      explanation: 'La parte bella? <strong>I componenti non sanno la differenza!</strong> Il codice è identico sia per store centralizzato che feature store.',
+      title: '🧩 Use Store in Components (identical!)',
+      explanation: 'The beautiful part? <strong>Components don\'t know the difference!</strong> The code is identical for both centralized store and feature store.',
       codeExample: {
         title: 'File: features/counter/counter.component.ts',
         code: this.componentCode
       },
       explanationBox: {
-        title: '💡 Vantaggi di questa astrazione:',
+        title: '💡 Advantages of this abstraction:',
         points: [
-          'Stesso codice nei components per entrambi i pattern',
-          'Puoi <strong>migrare</strong> da feature stores a centralizzato (o viceversa) facilmente',
-          'I componenti sono disaccoppiati dall\'architettura dello store',
-          'Testabilità identica per entrambi gli approcci'
+          'Same code in components for both patterns',
+          'You can <strong>migrate</strong> from feature stores to centralized (or vice versa) easily',
+          'Components are decoupled from the store architecture',
+          'Identical testability for both approaches'
         ]
       }
     }

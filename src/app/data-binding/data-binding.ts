@@ -1,10 +1,21 @@
-/**
- * DATA BINDING IN ANGULAR
- *
- * 1. INTERPOLAZIONE: {{ variabile }} o {{ metodo() }}
- * 2. PROPERTY BINDING: [property]="valore"
- * 3. EVENT BINDING: (event)="handler()"
- */
+// COMPONENT TYPE: Container
+// SECTION: Angular Basics
+//
+// ROLE:
+// - Demonstrate core Angular data binding concepts
+// - Show interpolation, property binding, and event binding
+// - Provide interactive examples for each binding type
+//
+// PATTERNS USED:
+// - Standalone component architecture
+// - Educational organization with clear examples
+// - Direct state manipulation (no services needed for basic demo)
+//
+// NOTES FOR CONTRIBUTORS:
+// - Keep examples simple and focused on binding concepts
+// - Add comments explaining Angular vs React equivalents for learning
+// - Use clear section markers for different binding types
+// - Maintain Italian for user-facing content
 
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
@@ -17,24 +28,24 @@ import { PageHeader } from '../page-header/page-header';
   styleUrl: './data-binding.scss',
 })
 export class DataBinding {
-  // Proprietà semplice - usata con interpolazione {{ text }}
+  // Simple property - used with interpolation {{ text }}
   text = 'testo statico da variabile';
 
-  // Proprietà mutabile - modificata dagli eventi
+  // Mutable property - modified by events
   // In React: const [imgLogo, setImgLogo] = useState('/logo.png')
   imgLogo = '/logo.png';
 
-  // Metodo semplice - chiamato nel template: {{ getText() }}
+  // Simple method - called in template: {{ getText() }}
   getText() {
     return 'testo da getText()';
   }
 
-  // Metodo con parametri - esempio: {{ getDynamicText('test') }}
+  // Method with parameters - example: {{ getDynamicText('test') }}
   getDynamicText(text: string) {
     return 'dynamic text: ' + text;
   }
 
-  // Metodo con più parametri - esempio: {{ sum(2, 3) }}
+  // Method with multiple parameters - example: {{ sum(2, 3) }}
   sum(a: number, b: number) {
     return a + b;
   }
@@ -43,21 +54,21 @@ export class DataBinding {
     return user.id;
   }
 
-  // GETTER: accede a imgLogo come proprietà
-  // Usabile nel template: {{ imgLogoSrc }} o [src]="imgLogoSrc"
+  // GETTER: access imgLogo as property
+  // Usable in template: {{ imgLogoSrc }} or [src]="imgLogoSrc"
   get imgLogoSrc() {
     return this.imgLogo;
   }
 
-  // SETTER: modifica imgLogo come proprietà
-  // In React non servono getter/setter, si usa direttamente lo state
+  // SETTER: modify imgLogo as property
+  // In React getters/setters aren't needed, state is used directly
   set imgLogoSrc(value: string) {
     this.imgLogo = value;
   }
 
-  // EVENT HANDLER: modifica lo stato quando si clicca
-  // Angular: (click)="onClick()" - chiamata esplicita
-  // React: onClick={onClick} - riferimento alla funzione
+  // EVENT HANDLER: modify state on click
+  // Angular: (click)="onClick()" - explicit call
+  // React: onClick={onClick} - function reference
   onClick() {
     this.imgLogo = '/path-inesistente.png';
   }

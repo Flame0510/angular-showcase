@@ -1,9 +1,35 @@
+// COMPONENT TYPE: Container
+// SECTION: Navigation and Layout
+//
+// ROLE:
+// - Provide main application navigation
+// - Organize navigation items into logical groups
+// - Handle dropdown menu state and interactions
+// - Track current route for active link highlighting
+//
+// PATTERNS USED:
+// - Signal-based dropdown state management
+// - Router integration for navigation and route tracking
+// - Grouped navigation structure (Basics, Advanced, State Management, Examples)
+// - HostListener for click-outside-to-close functionality
+//
+// NOTES FOR CONTRIBUTORS:
+// - Add new routes to appropriate groups array
+// - Maintain consistent icon usage with Icon component
+// - Keep navigation structure flat (avoid deep nesting)
+// - Update currentUrl signal when adding route tracking features
+
 import { Component, signal, inject, HostListener } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Icon } from '../components/icon/icon';
 import { filter } from 'rxjs';
 
+// PATTERN: Navigation data structure
+// PURPOSE:
+// - Defines typed structure for navigation items and groups
+// - Ensures consistency in navigation data throughout the component
+// - Makes it easy to add new routes with type safety
 interface NavItem {
   label: string;
   route: string;
@@ -64,7 +90,7 @@ export class Navbar {
   ];
 
   constructor() {
-    // Traccia la route corrente
+    // Track current route
     this.currentUrl.set(this.router.url);
 
     this.router.events

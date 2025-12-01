@@ -1,4 +1,4 @@
-// Card utente moderna con glassmorphism
+// Modern user card with glassmorphism
 .user-card {
   position: relative;
   background: rgba(255, 255, 255, 0.95);
@@ -15,7 +15,7 @@
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
   }
 
-  // Avatar icona in alto
+  // Avatar icon at top
   &__avatar {
     width: 64px;
     height: 64px;
@@ -36,12 +36,12 @@
     }
   }
 
-  // Contenuto testuale
+  // Text content
   &__content {
     margin-bottom: 16px;
   }
 
-  // Nome completo
+  // Full name
   &__name {
     font-size: 20px;
     font-weight: 700;
@@ -57,7 +57,7 @@
     margin-bottom: 12px;
   }
 
-  // Info email e età
+  // Email and age info
   &__info {
     display: flex;
     flex-direction: column;
@@ -92,7 +92,7 @@
     width: fit-content;
   }
 
-  // Pulsante elimina posizionato in alto a destra
+  // Delete button positioned at top right
   &__delete-btn {
     position: absolute;
     top: 16px;
@@ -130,7 +130,7 @@
   }
 }
 
-// Animazione di entrata
+// Entry animation
 @keyframes fadeInUp {
   from {
     opacity: 0;

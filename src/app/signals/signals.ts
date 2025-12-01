@@ -1,3 +1,23 @@
+// COMPONENT TYPE: Container
+// SECTION: Angular Signals
+//
+// ROLE:
+// - Demonstrate Angular Signals API through interactive examples
+// - Show writable signals, computed signals, and effects
+// - Provide practical example with shopping cart
+//
+// PATTERNS USED:
+// - Standalone component with Signals API
+// - Educational code organization with clear section markers
+// - Reactive state management with signals (no services needed for this demo)
+// - Computed signals for derived state (automatic recalculation)
+//
+// NOTES FOR CONTRIBUTORS:
+// - Keep examples simple and focused on signal concepts
+// - Use clear section markers (═══) for educational clarity
+// - Add new signal patterns as separate, well-labeled sections
+// - Avoid introducing complex state management (keep it educational)
+
 import { Component, signal, computed, effect } from '@angular/core';
 import { PageHeader } from '../page-header/page-header';
 
@@ -9,14 +29,14 @@ import { PageHeader } from '../page-header/page-header';
 })
 export class Signals {
   // ═══════════════════════════════════════════════════════════════════
-  // 1. WRITABLE SIGNAL - Signal che può essere modificato
+  // 1. WRITABLE SIGNAL - Signal that can be modified
   // ═══════════════════════════════════════════════════════════════════
-  // Crea un signal con valore iniziale 0
-  // I signal sono reattivi: quando cambia il valore, Angular aggiorna automaticamente il template
+  // Creates a signal with initial value 0
+  // Signals are reactive: when the value changes, Angular automatically updates the template
   count = signal(0);
 
   increment() {
-    // .update() riceve una funzione che prende il valore corrente e ritorna il nuovo valore
+    // .update() receives a function that takes the current value and returns the new value
     this.count.update((value) => value + 1);
   }
 
@@ -25,30 +45,30 @@ export class Signals {
   }
 
   reset() {
-    // .set() imposta direttamente un nuovo valore senza leggere quello precedente
+    // .set() directly sets a new value without reading the previous one
     this.count.set(0);
   }
 
   // ═══════════════════════════════════════════════════════════════════
-  // 2. COMPUTED SIGNAL - Derivato da altri signal (reattivo)
+  // 2. COMPUTED SIGNAL - Derived from other signals (reactive)
   // ═══════════════════════════════════════════════════════════════════
-  // I computed signals si ricalcolano automaticamente quando i signal da cui dipendono cambiano
-  // Sono read-only e memorizzano il risultato (memoization) per evitare calcoli inutili
+  // Computed signals automatically recalculate when their dependent signals change
+  // They are read-only and memoize the result to avoid unnecessary calculations
   doubleCount = computed(() => this.count() * 2);
   tripleCount = computed(() => this.count() * 3);
 
   // ═══════════════════════════════════════════════════════════════════
-  // 3. ESEMPIO PRATICO - Carrello con total calcolato
+  // 3. PRACTICAL EXAMPLE - Shopping cart with calculated total
   // ═══════════════════════════════════════════════════════════════════
-  // Signal che contiene un array di oggetti (items del carrello)
+  // Signal containing an array of objects (cart items)
   items = signal([
     { name: 'MacBook Pro', price: 2499, quantity: 1 },
     { name: 'iPhone 15', price: 999, quantity: 2 },
     { name: 'AirPods Pro', price: 249, quantity: 1 },
   ]);
 
-  // Computed che calcola automaticamente il totale ogni volta che items cambia
-  // Questo è molto più efficiente rispetto a ricalcolare il totale manualmente dopo ogni modifica
+  // Computed that automatically calculates total whenever items changes
+  // This is much more efficient than manually recalculating total after each modification
   total = computed(() => {
     return this.items().reduce((sum, item) => sum + item.price * item.quantity, 0);
   });
@@ -65,8 +85,8 @@ export class Signals {
   }
 
   updateQuantity(index: number, delta: number) {
-    // Aggiorna la quantità di un item creando un nuovo array (immutabilità)
-    // Math.max(0, ...) previene quantità negative
+    // Update item quantity by creating a new array (immutability)
+    // Math.max(0, ...) prevents negative quantities
     this.items.update((currentItems) =>
       currentItems.map((item, i) =>
         i === index ? { ...item, quantity: Math.max(0, item.quantity + delta) } : item
@@ -75,17 +95,17 @@ export class Signals {
   }
 
   // ═══════════════════════════════════════════════════════════════════
-  // 4. EFFECT - Esegue side effects quando i signal cambiano
+  // 4. EFFECT - Executes side effects when signals change
   // ═══════════════════════════════════════════════════════════════════
   effectLogs = signal<string[]>([]);
 
   constructor() {
-    // Effect: si esegue automaticamente quando i signal usati al suo interno cambiano
-    // Utile per logging, analytics, chiamate API, localStorage, ecc.
+    // Effect: executes automatically when signals used inside it change
+    // Useful for logging, analytics, API calls, localStorage, etc.
     effect(() => {
       const currentCount = this.count();
-      const log = `Count cambiato: ${currentCount}`;
-      // Mantiene solo gli ultimi 5 log per evitare overflow
+      const log = `Count changed: ${currentCount}`;
+      // Keep only last 5 logs to avoid overflow
       this.effectLogs.update((logs) => [...logs.slice(-4), log]);
     });
   }

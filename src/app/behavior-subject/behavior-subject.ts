@@ -18,22 +18,22 @@ interface Message {
   styleUrl: './behavior-subject.scss'
 })
 export class BehaviorSubjectComponent {
-  // BehaviorSubject con valore iniziale
+  // BehaviorSubject with initial value
   messageSubject = new BehaviorSubject<string>('Benvenuto!');
   message$ = this.messageSubject.asObservable();
   currentMessage = '';
 
-  // BehaviorSubject per contatore
+  // BehaviorSubject for counter
   counterSubject = new BehaviorSubject<number>(0);
   counter$ = this.counterSubject.asObservable();
   currentCount = 0;
 
-  // BehaviorSubject per messaggi complessi
+  // BehaviorSubject for complex messages
   messagesSubject = new BehaviorSubject<Message[]>([]);
   messages$ = this.messagesSubject.asObservable();
   messageHistory: Message[] = [];
 
-  // BehaviorSubject per stato utente
+  // BehaviorSubject for user state
   userStateSubject = new BehaviorSubject<{ name: string; online: boolean }>({
     name: 'Ospite',
     online: false,
@@ -42,14 +42,14 @@ export class BehaviorSubjectComponent {
   currentUserState = { name: 'Ospite', online: false };
 
   constructor() {
-    // Sottoscrizioni per visualizzare i valori correnti
+    // Subscriptions to display current values
     this.message$.subscribe((msg) => (this.currentMessage = msg));
     this.counter$.subscribe((count) => (this.currentCount = count));
     this.messages$.subscribe((msgs) => (this.messageHistory = msgs));
     this.userState$.subscribe((state) => (this.currentUserState = state));
   }
 
-  // Metodi per l'esempio del messaggio
+  // Methods for message example
   updateMessage(newMessage: string) {
     this.messageSubject.next(newMessage);
   }
@@ -58,7 +58,7 @@ export class BehaviorSubjectComponent {
     this.messageSubject.next('Benvenuto!');
   }
 
-  // Metodi per l'esempio del contatore
+  // Methods for counter example
   incrementCounter() {
     const currentValue = this.counterSubject.value;
     this.counterSubject.next(currentValue + 1);
@@ -73,7 +73,7 @@ export class BehaviorSubjectComponent {
     this.counterSubject.next(0);
   }
 
-  // Metodi per l'esempio dei messaggi
+  // Methods for messages list example
   addMessage(text: string) {
     const currentMessages = this.messagesSubject.value;
     const newMessage: Message = {
@@ -87,7 +87,7 @@ export class BehaviorSubjectComponent {
     this.messagesSubject.next([]);
   }
 
-  // Metodi per l'esempio dello stato utente
+  // Methods for user state example
   login(name: string) {
     this.userStateSubject.next({ name, online: true });
   }
@@ -96,50 +96,50 @@ export class BehaviorSubjectComponent {
     this.userStateSubject.next({ name: 'Ospite', online: false });
   }
 
-  // Esempi di codice
+  // Code examples
   basicExample = `import { BehaviorSubject } from 'rxjs';
 
-// Creazione di un BehaviorSubject con valore iniziale
-const subject = new BehaviorSubject<string>('Valore iniziale');
+// Creating a BehaviorSubject with initial value
+const subject = new BehaviorSubject<string>('Initial value');
 
-// Sottoscrizione - riceve subito il valore corrente
+// Subscription - immediately receives the current value
 subject.subscribe(value => {
-  console.log('Ricevuto:', value);
+  console.log('Received:', value);
 });
-// Output: Ricevuto: Valore iniziale
+// Output: Received: Initial value
 
-// Emissione di un nuovo valore
-subject.next('Nuovo valore');
-// Output: Ricevuto: Nuovo valore`;
+// Emitting a new value
+subject.next('New value');
+// Output: Received: New value`;
 
-  valueAccessExample = `// Accesso al valore corrente senza sottoscrizione
+  valueAccessExample = `// Access current value without subscription
 const currentValue = subject.value;
-console.log('Valore corrente:', currentValue);
+console.log('Current value:', currentValue);
 
-// Questo è utile per operazioni sincrone
-if (subject.value === 'qualcosa') {
-  // fai qualcosa
+// This is useful for synchronous operations
+if (subject.value === 'something') {
+  // do something
 }`;
 
-  comparisonExample = `// Subject - NON ha valore iniziale
+  comparisonExample = `// Subject - NO initial value
 const subject = new Subject<string>();
 subject.subscribe(v => console.log('Sub 1:', v));
-// Non viene stampato nulla ancora
+// Nothing printed yet
 
-subject.next('Primo valore');
-// Output: Sub 1: Primo valore
+subject.next('First value');
+// Output: Sub 1: First value
 
-// BehaviorSubject - HA valore iniziale
-const behaviorSubject = new BehaviorSubject<string>('Iniziale');
+// BehaviorSubject - HAS initial value
+const behaviorSubject = new BehaviorSubject<string>('Initial');
 behaviorSubject.subscribe(v => console.log('Sub 1:', v));
-// Output: Sub 1: Iniziale (emesso subito!)
+// Output: Sub 1: Initial (emitted immediately!)
 
-behaviorSubject.next('Secondo valore');
-// Output: Sub 1: Secondo valore`;
+behaviorSubject.next('Second value');
+// Output: Sub 1: Second value`;
 
   practicalExample = `import { BehaviorSubject } from 'rxjs';
 
-// Service per gestire lo stato di autenticazione
+// Service to manage authentication state
 export class AuthService {
   private userSubject = new BehaviorSubject<User | null>(null);
   public user$ = this.userSubject.asObservable();
@@ -152,18 +152,18 @@ export class AuthService {
     this.userSubject.next(null);
   }
 
-  // Ottieni l'utente corrente senza sottoscrizione
+  // Get current user without subscription
   getCurrentUser(): User | null {
     return this.userSubject.value;
   }
 
-  // Verifica se l'utente è loggato
+  // Check if user is logged in
   isLoggedIn(): boolean {
     return this.userSubject.value !== null;
   }
 }`;
 
-  stateManagementExample = `// Service per gestire lo stato del carrello
+  stateManagementExample = `// Service to manage cart state
 export class CartService {
   private cartSubject = new BehaviorSubject<CartItem[]>([]);
   public cart$ = this.cartSubject.asObservable();

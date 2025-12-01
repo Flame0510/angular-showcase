@@ -1,3 +1,22 @@
+// COMPONENT TYPE: Presentational
+// SECTION: Shared UI Components
+//
+// ROLE:
+// - Display concept cards with icon, title, description, code, and key points
+// - Provide consistent structure for educational content
+// - Support syntax highlighting via CodeBlock component
+//
+// PATTERNS USED:
+// - Pure presentational component (@Input only)
+// - Composition with CodeBlock for syntax highlighting
+// - Exported data interface for type safety
+//
+// NOTES FOR CONTRIBUTORS:
+// - Keep this component stateless
+// - All data comes from @Input properties
+// - Used primarily in ngrx-concepts for educational cards
+// - Icon can be emoji or icon name from Icon component
+
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CodeBlock } from '@components/code-block/code-block';
@@ -5,20 +24,14 @@ import { CodeLanguage } from '@models/code';
 
 /**
  * Interface for ConceptCard data structure
- */
-export interface ConceptCardData {
-  icon: string;
-  title: string;
-  description: string;
-  code: string;
-  codeLanguage?: CodeLanguage;
-  keyPointsTitle: string;
-  keyPoints: string[];
-}
-
-/**
- * Reusable concept card component for displaying conceptual information
- * with icon, title, description, optional code example, and key points list.
+ *
+ * @property icon - Icon name or emoji to display
+ * @property title - Card title
+ * @property description - Card description text
+ * @property code - Code example to display
+ * @property codeLanguage - Language for syntax highlighting (optional, defaults to typescript)
+ * @property keyPointsTitle - Title for key points section
+ * @property keyPoints - Array of key point strings
  *
  * @example
  * ```html
@@ -33,6 +46,16 @@ export interface ConceptCardData {
  * </app-concept-card>
  * ```
  */
+export interface ConceptCardData {
+  icon: string;
+  title: string;
+  description: string;
+  code: string;
+  codeLanguage?: CodeLanguage;
+  keyPointsTitle: string;
+  keyPoints: string[];
+}
+
 @Component({
   selector: 'app-concept-card',
   standalone: true,

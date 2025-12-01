@@ -1,8 +1,32 @@
+// COMPONENT TYPE: Container
+// SECTION: Home Page
+//
+// ROLE:
+// - Display the main landing page with overview of all Angular features
+// - Organize feature cards into logical sections (basics, advanced, state management)
+// - Provide navigation entry points to all major showcases
+//
+// PATTERNS USED:
+// - Standalone component architecture
+// - Configuration-driven UI (feature array)
+// - Responsive grid layout for feature cards
+//
+// NOTES FOR CONTRIBUTORS:
+// - Add new features to the featureCards array, UI will auto-update
+// - Keep descriptions concise and in Italian (user-facing content)
+// - Maintain consistent feature card structure across all sections
+// - Icons must be registered in the Icon component
+
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FeatureCard } from '../components/feature-card/feature-card';
 import { Icon } from '../components/icon/icon';
 
+// PATTERN: Feature definition
+// PURPOSE:
+// - Provides consistent structure for feature card data
+// - Used by template to render navigation cards
+// - Changing this interface requires updating all feature definitions
 interface Feature {
   routerLink: string;
   iconName: string;

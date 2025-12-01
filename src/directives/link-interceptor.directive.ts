@@ -1,3 +1,25 @@
+// COMPONENT TYPE: Directive
+// SECTION: UI Behavior - Link Interception
+//
+// ROLE:
+// - Intercept all link clicks in the application
+// - Open external links in modal instead of new tab
+// - Handle target="_blank" links with modal
+// - Distinguish between internal and external links
+//
+// PATTERNS USED:
+// - HostListener for click event interception
+// - Event delegation (closest('a') to find anchor)
+// - Modal service integration for external links
+// - Router for internal navigation
+//
+// NOTES FOR CONTRIBUTORS:
+// - Applied globally via app.ts
+// - Prevents external links from leaving the app
+// - Uses ModalService to determine if link is external
+// - Preserves normal router navigation for internal links
+// - Always preventDefault/stopPropagation for intercepted links
+
 import { Directive, HostListener, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalService } from '../app/services/modal.service';
@@ -22,12 +44,12 @@ export class LinkInterceptor {
     const href = anchor.getAttribute('href');
     const target_attr = anchor.getAttribute('target');
 
-    // Se il link ha target="_blank" o non ha href, ignoriamo
+    // If link has target="_blank" or no href, ignore
     if (!href || href === '#') {
       return;
     }
 
-    // Se ha target="_blank", intercetta e apri in modale
+    // If has target="_blank", intercept and open in modal
     if (target_attr === '_blank') {
       event.preventDefault();
       event.stopPropagation();
@@ -35,13 +57,13 @@ export class LinkInterceptor {
       if (this.modalService.isExternal(href)) {
         this.modalService.openExternal(href, anchor.textContent || undefined);
       } else {
-        // Link interno - naviga usando il router in modale
+        // Internal link - navigate using router in modal
         this.router.navigate([href]);
       }
       return;
     }
 
-    // Controlla se il link è esterno
+    // Check if link is external
     if (this.modalService.isExternal(href)) {
       event.preventDefault();
       event.stopPropagation();

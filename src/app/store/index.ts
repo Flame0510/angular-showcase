@@ -1,3 +1,21 @@
+// COMPONENT TYPE: Store - Barrel Export
+// SECTION: State Management - Store Index
+//
+// ROLE:
+// - Re-export all store modules from single entry point
+// - Simplify imports in components (import from 'store' not 'store/counter/counter.actions')
+// - Provide convenient access to all store artifacts
+//
+// PATTERNS USED:
+// - Barrel export pattern
+// - Grouped re-exports by feature
+//
+// NOTES FOR CONTRIBUTORS:
+// - Add new feature exports here when creating new store slices
+// - Group exports by feature for clarity
+// - Export state, actions, reducers, and selectors for each feature
+// - This allows: import { increment, selectCount } from 'store'
+
 // Counter
 export * from './counter/counter.state';
 export * from './counter/counter.actions';

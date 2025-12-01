@@ -1,3 +1,24 @@
+// COMPONENT TYPE: Container
+// SECTION: HTTP and Async Operations
+//
+// ROLE:
+// - Demonstrate HTTP requests with real user data
+// - Provide search/filter functionality
+// - Handle CRUD operations (fetch and delete)
+// - Coordinate between UsersService and presentational UserCard components
+//
+// PATTERNS USED:
+// - Service Facade pattern (UsersService handles HTTP)
+// - Signal-based search state
+// - Effect for automatic filtering when search changes
+// - Composition with UserCard for display
+//
+// NOTES FOR CONTRIBUTORS:
+// - Keep HTTP logic in UsersService, not here
+// - Search filtering is reactive via effect()
+// - UserCard is presentational and receives data via @Input
+// - Follow this pattern when adding more user features
+
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal, effect } from '@angular/core';
 import { User } from '../../types/users';
@@ -14,30 +35,30 @@ import { Icon } from '../components/icon/icon';
   styleUrl: './user-list.scss',
 })
 export class UserList {
-  // Inietta il service degli utenti tramite Dependency Injection
+  // Inject the users service via Dependency Injection
   usersService = inject<UsersService>(UsersService);
 
-  // Signal che contiene il testo della ricerca
+  // Signal containing the search text
   search = signal<string>('');
 
   constructor() {
-    // Effect che si attiva quando search cambia, filtra automaticamente gli utenti
+    // Effect that triggers when search changes, automatically filters users
     effect(() => {
       this.usersService.filterUsers(this.search());
     });
   }
 
-  // Getter per accedere agli utenti dal service
+  // Getter to access users from the service
   get users(): User[] {
     return this.usersService.users();
   }
 
-  // Ricarica la lista degli utenti
+  // Reload the users list
   fetchUsers() {
     this.usersService.fetchUsers();
   }
 
-  // Elimina un utente, riceve l'ID dal componente figlio UserCard
+  // Delete a user, receives ID from child UserCard component
   deleteUser(userId: number) {
     this.usersService.deleteUser(userId);
   }

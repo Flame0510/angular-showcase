@@ -1,9 +1,36 @@
+// COMPONENT TYPE: Facade Service
+// SECTION: HTTP and Data Access
+//
+// ROLE:
+// - Provide posts data access layer
+// - Handle HTTP CRUD operations for posts
+// - Abstract API communication from components
+// - Demonstrate Service Facade pattern benefits
+//
+// PATTERNS USED:
+// - Service Facade pattern
+// - Observable-based HTTP responses
+// - Typed interfaces for data contracts
+// - CRUD operation methods
+//
+// NOTES FOR CONTRIBUTORS:
+// - WHY USE A SERVICE FACADE?
+//   1. Separation of concerns: Components don't know WHERE/HOW data is fetched
+//   2. Reusability: Multiple components can use the same service
+//   3. Testability: Easy to mock in tests, components only test UI
+//   4. Maintainability: API changes affect only the service
+//   5. Type safety: Service defines data interfaces, TypeScript ensures correct usage
+//
+// - Add error handling and loading states for production
+// - Consider adding caching for frequently accessed data
+// - Keep HTTP logic here, not in components
+
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 /**
- * Interfaccia per un Post da JSONPlaceholder
+ * Interface for a Post from JSONPlaceholder API
  */
 export interface Post {
   userId: number;
@@ -11,88 +38,61 @@ export interface Post {
   title: string;
   body: string;
 }
-
-/**
- * Service Facade per la gestione dei Post
- *
- * PERCHÉ USARE UN SERVICE FACADE?
- * ================================
- * 1. SEPARAZIONE DELLE RESPONSABILITÀ:
- *    - Il componente non deve sapere DOVE e COME vengono recuperati i dati
- *    - Il service centralizza tutta la logica di comunicazione HTTP
- *
- * 2. RIUSABILITÀ:
- *    - Più componenti possono usare lo stesso service
- *    - Evita duplicazione di codice
- *
- * 3. TESTABILITÀ:
- *    - Facile creare mock del service nei test
- *    - I componenti testano solo la UI, non la logica HTTP
- *
- * 4. MANUTENIBILITÀ:
- *    - Se cambia l'API, modifichi solo il service
- *    - Se aggiungi caching, lo fai solo qui
- *    - Se aggiungi error handling, lo centralizzi
- *
- * 5. TYPE SAFETY:
- *    - Il service definisce le interfacce dei dati
- *    - TypeScript ti avvisa se usi i dati male
- */
 @Injectable({
-  providedIn: 'root', // Singleton in tutta l'app
+  providedIn: 'root', // Singleton throughout the app
 })
 export class PostsService {
-  // Dependency Injection del HttpClient
+  // Dependency Injection of HttpClient
   private http = inject(HttpClient);
 
-  // URL base dell'API (in un'app reale, verrebbe da environment)
+  // Base API URL (in a real app, would come from environment)
   private readonly API_URL = 'https://jsonplaceholder.typicode.com/posts';
 
   /**
-   * Recupera tutti i post (GET)
+   * Retrieve all posts (GET)
    *
-   * @returns Observable<Post[]> - Stream di dati che emette l'array di post
+   * @returns Observable<Post[]> - Data stream that emits the posts array
    */
   getPosts(): Observable<Post[]> {
     return this.http.get<Post[]>(this.API_URL);
   }
 
   /**
-   * Recupera un singolo post per ID (GET)
+   * Retrieve a single post by ID (GET)
    *
-   * @param id - ID del post da recuperare
-   * @returns Observable<Post> - Stream che emette il post richiesto
+   * @param id - ID of the post to retrieve
+   * @returns Observable<Post> - Stream that emits the requested post
    */
   getPost(id: number): Observable<Post> {
     return this.http.get<Post>(`${this.API_URL}/${id}`);
   }
 
   /**
-   * Crea un nuovo post (POST)
+   * Create a new post (POST)
    *
-   * @param post - Dati del post da creare (senza id)
-   * @returns Observable<Post> - Stream che emette il post creato con id
+   * @param post - Post data to create (without id)
+   * @returns Observable<Post> - Stream that emits the created post with id
    */
   createPost(post: Omit<Post, 'id'>): Observable<Post> {
     return this.http.post<Post>(this.API_URL, post);
   }
 
   /**
-   * Aggiorna un post esistente (PUT)
+   * Update an existing post (PUT)
    *
-   * @param id - ID del post da aggiornare
-   * @param post - Nuovi dati del post
-   * @returns Observable<Post> - Stream che emette il post aggiornato
+   * @param id - ID of the post to update
+   * @param post - New post data
+   * @returns Observable<Post> - Stream that emits the updated post
    */
   updatePost(id: number, post: Post): Observable<Post> {
     return this.http.put<Post>(`${this.API_URL}/${id}`, post);
   }
 
   /**
-   * Elimina un post (DELETE)
+   * Delete a post (DELETE)
    *
-   * @param id - ID del post da eliminare
-   * @returns Observable<void> - Stream che completa quando la cancellazione ha successo
+   * @param id - ID of the post to delete
+   * @returns Observable<void> - Stream that completes when deletion succeeds
    */
   deletePost(id: number): Observable<void> {
     return this.http.delete<void>(`${this.API_URL}/${id}`);

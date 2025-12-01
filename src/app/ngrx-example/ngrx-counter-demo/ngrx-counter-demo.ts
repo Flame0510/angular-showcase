@@ -1,3 +1,24 @@
+// COMPONENT TYPE: Container
+// SECTION: State Management - NgRx Counter Demo
+//
+// ROLE:
+// - Demonstrate basic NgRx Store integration
+// - Show selector usage with Observable streams
+// - Illustrate action dispatching pattern
+// - Display actions log for educational visibility
+//
+// PATTERNS USED:
+// - Smart Component pattern (NgRx Store integration)
+// - Observable selectors with async pipe in template
+// - Action dispatching for state updates
+// - Memoized selectors for performance
+//
+// NOTES FOR CONTRIBUTORS:
+// - This is an educational demo, keep logic simple
+// - All state lives in store/counter/
+// - Actions log demonstrates Redux DevTools alternative
+// - Follow this pattern for new store features
+
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
@@ -9,15 +30,6 @@ import * as CounterSelectors from '../../store/counter/counter.selectors';
 import * as ActionsLogActions from '../../store/actions-log/actions-log.actions';
 import * as ActionsLogSelectors from '../../store/actions-log/actions-log.selectors';
 
-/**
- * Counter Demo Component - Esempio di Smart Component con NgRx
- *
- * Questo componente dimostra il pattern classico NgRx:
- * 1. Inietta lo Store nel constructor
- * 2. Seleziona gli slice di stato tramite selectors (Observable)
- * 3. Dispatcha actions per modificare lo stato
- * 4. Il template usa async pipe per sottoscriversi agli Observable
- */
 @Component({
   selector: 'app-ngrx-counter-demo',
   standalone: true,
@@ -26,25 +38,23 @@ import * as ActionsLogSelectors from '../../store/actions-log/actions-log.select
   styleUrls: ['./ngrx-counter-demo.scss'],
 })
 export class NgrxCounterDemo {
-  // 📊 SELECTORS: Observable streams dallo Store
-  // Questi Observable emettono automaticamente quando lo stato cambia
+  // SELECTORS: Observable streams from Store
+  // These Observables emit automatically when state changes
   counterState$: Observable<CounterState>;
   actionsLog$: Observable<string[]>;
 
   constructor(private store: Store<AppState>) {
-    // Selezioniamo i dati dallo Store usando i selectors
-    // I selectors sono funzioni pure e memoized per performance ottimali
+    // Select data from Store using selectors
+    // Selectors are pure, memoized functions for optimal performance
     this.counterState$ = this.store.select(CounterSelectors.selectCounterFull);
     this.actionsLog$ = this.store.select(ActionsLogSelectors.selectLogs);
   }
 
-  // 🚀 ACTIONS: Metodi che dispatchano actions allo Store
-  // Ogni dispatch triggera il reducer corrispondente che aggiorna lo stato
+  // ACTIONS: Methods that dispatch actions to Store
+  // Each dispatch triggers the corresponding reducer to update state
 
-  /**
-   * Incrementa il counter di 1
-   * Flow: dispatch → reducer → nuovo state → selector emette → template aggiorna
-   */
+  // Increment counter by 1
+  // Flow: dispatch → reducer → new state → selector emits → template updates
   increment() {
     this.store.dispatch(CounterActions.increment());
   }

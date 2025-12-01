@@ -1,3 +1,25 @@
+// COMPONENT TYPE: Container
+// SECTION: UI Components - Modal
+//
+// ROLE:
+// - Display modal for external links and dynamic components
+// - Handle iframe embedding for external URLs
+// - Support dynamic component loading with ViewContainerRef
+// - Manage modal state via ModalService
+//
+// PATTERNS USED:
+// - Reactive modal state with Signals
+// - DomSanitizer for safe URL handling
+// - Dynamic component loading with ViewContainerRef
+// - Service subscription for state management
+//
+// NOTES FOR CONTRIBUTORS:
+// - Modal state comes from ModalService
+// - External links are embedded in iframe (sanitized)
+// - Components are dynamically loaded into ViewContainerRef
+// - Always clear component refs on close to prevent memory leaks
+// - Use DomSanitizer for all external URLs
+
 import { Component, signal, ViewChild, ViewContainerRef, ComponentRef, Type, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalService, ModalContent, ModalState } from '../services/modal.service';

@@ -1,14 +1,13 @@
-// Blocco principale del form
+// Main form block
 .form {
-  // Container che centra il form nella pagina
+  // Container that centers the form on page
   &__container {
     display: flex;
     justify-content: center;
     align-items: center;
-
   }
 
-  // Card bianca con ombra che contiene il form
+  // White card with shadow containing the form
   &__card {
     background: white;
     border-radius: 16px;
@@ -23,7 +22,7 @@
     }
   }
 
-  // Titolo principale del form
+  // Main form title
   &__title {
     font-size: 28px;
     font-weight: 700;
@@ -36,7 +35,7 @@
     }
   }
 
-  // Sottotitolo descrittivo
+  // Descriptive subtitle
   &__subtitle {
     font-size: 14px;
     color: #666;
@@ -44,12 +43,12 @@
     margin-bottom: 30px;
   }
 
-  // Contenitore di ogni campo del form
+  // Container for each form field
   &__group {
     margin-bottom: 24px;
   }
 
-  // Label con icona di validazione
+  // Label with validation icon
   &__label {
     display: flex;
     justify-content: space-between;
@@ -60,7 +59,7 @@
     margin-bottom: 8px;
   }
 
-  // Input con validazione visiva
+  // Input with visual validation
   &__input {
     width: 100%;
     padding: 12px 16px;
@@ -71,19 +70,19 @@
     outline: none;
     box-sizing: border-box;
 
-    // Bordo blu al focus
+    // Blue border on focus
     &:focus {
       border-color: #667eea;
       box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
     }
 
-    // Input valido: verde
+    // Valid input: green
     &.valid {
       border-color: #4caf50;
       background-color: #f1f8f4;
     }
 
-    // Input invalido: rosso
+    // Invalid input: red
     &.invalid {
       border-color: #f44336;
       background-color: #fef5f5;
@@ -94,7 +93,7 @@
     }
   }
 
-  // Contenitore dei pulsanti
+  // Buttons container
   &__actions {
     display: flex;
     gap: 12px;
@@ -106,7 +105,7 @@
   }
 }
 
-// Icona di validazione (check/cross)
+// Validation icon (check/cross)
 .validation-icon {
   display: flex;
   align-items: center;
@@ -116,21 +115,21 @@
     height: 16px;
     transition: all 0.3s ease;
 
-    // Colore rosso per icona di errore
-    &[name="error"] svg {
+    // Red color for error icon
+    &[name='error'] svg {
       stroke: #f44336;
     }
 
-    // Colore verde per icona di successo
-    &[name="check"] svg {
+    // Green color for success icon
+    &[name='check'] svg {
       stroke: #4caf50;
     }
   }
 }
 
-// Blocco degli errori di validazione
+// Validation errors block
 .error {
-  // Contenitore dei messaggi di errore
+  // Error messages container
   &__messages {
     margin-top: 8px;
     display: flex;
@@ -138,7 +137,7 @@
     gap: 4px;
   }
 
-  // Singolo messaggio di errore con icona
+  // Single error message with icon
   &__item {
     color: #f44336;
     font-size: 12px;
@@ -147,13 +146,13 @@
     gap: 4px;
 
     &::before {
-      content: "⚠️";
+      content: '⚠️';
       font-size: 10px;
     }
   }
 }
 
-// Stile base dei pulsanti
+// Base style for buttons
 .btn {
   flex: 1;
   padding: 14px 24px;
@@ -174,7 +173,7 @@
     width: 100%;
   }
 
-  // Pulsante submit con gradient
+  // Submit button with gradient
   &__submit {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -184,7 +183,7 @@
       transform: translateY(-2px);
     }
 
-    // Stato disabilitato se form non valido
+    // Disabled state if form invalid
     &:disabled {
       background: #ccc;
       cursor: not-allowed;
@@ -192,7 +191,7 @@
     }
   }
 
-  // Pulsante reset con outline
+  // Reset button with outline
   &__reset {
     background: white;
     color: #667eea;
@@ -207,7 +206,7 @@
   }
 }
 
-// Animazione di entrata della card
+// Card entrance animation
 @keyframes slideIn {
   from {
     opacity: 0;

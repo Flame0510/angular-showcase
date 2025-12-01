@@ -1,6 +1,31 @@
+// COMPONENT TYPE: Facade Service
+// SECTION: UI State Management
+//
+// ROLE:
+// - Manage modal state across the application
+// - Provide methods to open/close modals
+// - Support both external links and dynamic components
+// - Use BehaviorSubject for reactive state management
+//
+// PATTERNS USED:
+// - Service for shared UI state
+// - BehaviorSubject for reactive modal state
+// - Type-safe modal content interface
+// - Dynamic component loading support
+//
+// NOTES FOR CONTRIBUTORS:
+// - Use this service to open modals from anywhere in the app
+// - Modal state is reactive via modalState$ observable
+// - Supports two content types: 'external' (iframe) and 'component' (dynamic)
+// - Always expose Observable, not BehaviorSubject directly
+
 import { Injectable, signal, Type } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
+// PATTERN: Modal content type definition
+// PURPOSE:
+// - Defines structure for modal content
+// - Supports both external URLs and dynamic components
 export interface ModalContent {
   type: 'external' | 'component';
   url: string;
@@ -22,6 +47,7 @@ export class ModalService {
     content: null,
   });
 
+  // Expose only Observable, not Subject
   modalState$ = this.modalStateSubject.asObservable();
 
   openExternal(url: string, title?: string) {
@@ -30,7 +56,7 @@ export class ModalService {
       content: {
         type: 'external',
         url,
-        title: title || 'Link Esterno',
+        title: title || 'External Link',
       },
     });
   }

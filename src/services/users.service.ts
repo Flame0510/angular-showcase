@@ -1,3 +1,24 @@
+// COMPONENT TYPE: Facade Service
+// SECTION: HTTP and Data Access
+//
+// ROLE:
+// - Provide users data access layer
+// - Handle HTTP requests to external API
+// - Manage users state with Signals
+// - Provide filtering and CRUD operations
+//
+// PATTERNS USED:
+// - Service Facade pattern
+// - Signal-based reactive state
+// - Auto-fetch on service initialization
+// - Filtering with local state
+//
+// NOTES FOR CONTRIBUTORS:
+// - Keep HTTP logic in this service, not in components
+// - baseUsers stores original data, users signal is filtered view
+// - Auto-fetches on initialization (consider lazy loading for production)
+// - Add error handling for HTTP failures in production
+
 import { Injectable, signal } from '@angular/core';
 import { User } from '../types/users';
 import { HttpClient } from '@angular/common/http';
@@ -6,23 +27,24 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class UsersService {
-  // Array di utenti accessibile nel template
+  // Base users array (unfiltered)
   baseUsers: User[] = [];
 
+  // Reactive signal for filtered users
   users = signal<User[]>([]);
 
   /**
-   * Costruttore che inizializza il servizio con la dipendenza del client HTTP e carica gli utenti.
-   * Recupera automaticamente gli utenti quando il servizio viene istanziato.
+   * Constructor initializes service with HTTP client and loads users.
+   * Automatically fetches users when service is instantiated.
    *
-   * @param http - Il client HTTP per effettuare richieste API
+   * @param http - HTTP client for API requests
    */
   constructor(private http: HttpClient) {
-    // Carica gli utenti all'inizializzazione del servizio
+    // Load users on service initialization
     this.fetchUsers();
   }
 
-  // Funzione per ottenere gli utenti da un'API esterna
+  // Fetch users from external API
   fetchUsers() {
     this.http.get<User[]>('https://jsonplaceholder.typicode.com/users').subscribe((users) => {
       this.baseUsers = users;
@@ -30,9 +52,9 @@ export class UsersService {
     });
   }
 
-  // Funzione per filtrare gli utenti in base a una stringa di ricerca
+  // Filter users based on search string (name or email)
   filterUsers(search?: string) {
-    // se search è undefined fa il set di users da baseUsers
+    // If search is undefined, reset to all users
     if (!search) {
       this.users.set(this.baseUsers);
     }
@@ -48,12 +70,12 @@ export class UsersService {
     );
   }
 
-  // Funzione per aggiornare la lista degli utenti
+  // Update users list
   setUsers(users: User[]) {
     this.users.set(users);
   }
 
-  // Funzione per eliminare un utente in base al suo ID
+  // Delete user by ID
   deleteUser(userId: number) {
     this.baseUsers = this.baseUsers.filter((user) => user.id !== userId);
     this.users.set(this.baseUsers);

@@ -1,12 +1,12 @@
-// Logo Angular che rimbalza per la pagina stile DVD screensaver
+// Angular logo that bounces around the page like DVD screensaver
 .floating-logo {
   position: fixed;
-  z-index: 9998; // Sotto i controlli
-  cursor: pointer; // Indica che è cliccabile
+  z-index: 9998; // Below controls
+  cursor: pointer; // Indicates it's clickable
   user-select: none;
-  will-change: top, left; // Ottimizzazione per animazioni smooth
+  will-change: top, left; // Optimization for smooth animations
 
-  // Effetto vetro glassmorphism
+  // Glassmorphism effect
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(8px);
   border-radius: 20px;
@@ -15,7 +15,7 @@
   box-shadow: 0 8px 32px rgba(102, 126, 234, 0.2);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
-  // Animazione di apparizione/scomparsa con scale
+  // Appearance/disappearance animation with scale
   animation: floatingLogoAppear 10s ease-in-out forwards;
 
   &:hover {
@@ -27,7 +27,7 @@
     transform: scale(0.95);
   }
 
-  // Logo "shiny" - raro 5% con gradiente animato dorato
+  // "Shiny" logo - rare 5% with animated golden gradient
   &--shiny {
     background: linear-gradient(
       135deg,
@@ -43,13 +43,13 @@
   }
 
   img {
-    width: 100%; // Larghezza fissa dal size
-    height: auto; // Altezza automatica per mantenere aspect ratio
+    width: 100%; // Fixed width from size
+    height: auto; // Auto height to maintain aspect ratio
     object-fit: contain;
     display: block;
   }
 
-  // Contenuto topic (icona + titolo)
+  // Topic content (icon + title)
   &__topic-content {
     display: flex;
     justify-content: center;
@@ -75,7 +75,7 @@
     white-space: nowrap;
   }
 
-  // Stile specifico per topic (meno padding per far stare meglio il contenuto)
+  // Topic-specific style (less padding to fit content better)
   &--topic {
     padding: 20px;
     display: flex;
@@ -113,7 +113,7 @@
   }
 }
 
-// Fade scuro in basso per migliorare leggibilità controlli
+// Dark fade at bottom to improve control readability
 .logo-controls-backdrop {
   position: fixed;
   bottom: 0;
@@ -121,11 +121,11 @@
   right: 0;
   height: 150px;
   z-index: 9998;
-  pointer-events: none; // Non blocca interazioni con i loghi
+  pointer-events: none; // Doesn't block interactions with logos
   background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
 }
 
-// Controlli per i loghi (fissi in basso a destra)
+// Logo controls (fixed at bottom right)
 .logo-controls {
   width: 100%;
   position: fixed;
@@ -175,7 +175,7 @@
       transform: translateY(0);
     }
 
-    // Bottone spawn con gradiente verde
+    // Spawn button with green gradient
     &--spawn {
       background: linear-gradient(135deg, rgba(46, 204, 113, 0.5), rgba(39, 174, 96, 0.5));
       border-color: rgba(46, 204, 113, 0.5);
@@ -186,7 +186,7 @@
       }
     }
 
-    // Stato attivo per toggle (spawn automatico abilitato)
+    // Active state for toggle (auto spawn enabled)
     &--active {
       background: linear-gradient(135deg, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5));
       border-color: rgba(102, 126, 234, 0.5);

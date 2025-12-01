@@ -1,6 +1,33 @@
+// COMPONENT TYPE: Presentational
+// SECTION: Home Page - Interactive Animation
+//
+// ROLE:
+// - Create interactive bouncing Angular logos with physics-based animation
+// - Handle click-to-spawn functionality for user engagement
+// - Auto-spawn logos with varied velocity multipliers
+// - Display topic cards on click with smooth animations
+//
+// PATTERNS USED:
+// - requestAnimationFrame for smooth 60fps animations
+// - Signal-based state management for logo array
+// - Probabilistic spawning with weighted velocity multipliers
+// - Custom physics simulation (collision detection, velocity, bounce)
+//
+// NOTES FOR CONTRIBUTORS:
+// - Animation runs on requestAnimationFrame, not CSS transitions
+// - Each logo has independent velocity and lifecycle
+// - Collision detection uses bounding box calculations
+// - Memory cleanup is critical: always cancel animation frames in ngOnDestroy
+// - Velocity multipliers create varied speeds (1x, 2x, 4x, 8x, infinite)
+
 import { Component, signal, OnInit, OnDestroy } from '@angular/core';
 import { Icon } from '../components/icon/icon';
 
+// PATTERN: Bouncing logo data structure
+// PURPOSE:
+// - Encapsulates all state needed for a single bouncing logo
+// - Supports both logo and topic card content types
+// - Tracks animation frame for cleanup
 interface BouncingLogoData {
   id: number;
   top: number;
@@ -9,10 +36,10 @@ interface BouncingLogoData {
   velocityX: number;
   velocityY: number;
   animationFrameId?: number;
-  isShiny?: boolean; // Se true, il logo ha il gradiente animato speciale
-  contentType: 'logo' | 'topic'; // Tipo di contenuto da mostrare
-  topicIcon?: string; // Nome icona se contentType è 'topic'
-  topicTitle?: string; // Titolo topic se contentType è 'topic'
+  isShiny?: boolean; // If true, logo has special animated gradient
+  contentType: 'logo' | 'topic'; // Type of content to display
+  topicIcon?: string; // Icon name if contentType is 'topic'
+  topicTitle?: string; // Topic title if contentType is 'topic'
 }
 
 @Component({
@@ -24,29 +51,29 @@ interface BouncingLogoData {
 })
 export class BouncingLogo implements OnInit, OnDestroy {
   // ═══════════════════════════════════════════════════════════════════
-  // CONFIGURAZIONE
+  // CONFIGURATION
   // ═══════════════════════════════════════════════════════════════════
-  private readonly BASE_VELOCITY = 2; // Velocità base (px per frame)
-  private readonly BASE_LOGO_SIZE = 120; // Dimensione base del logo (px)
-  private readonly LOGO_DURATION = 10000; // Durata di ogni logo (ms)
-  private readonly AUTO_SPAWN_INTERVAL = 12000; // Intervallo spawn automatico (ms)
+  private readonly BASE_VELOCITY = 2; // Base velocity (px per frame)
+  private readonly BASE_LOGO_SIZE = 120; // Base logo size (px)
+  private readonly LOGO_DURATION = 10000; // Duration of each logo (ms)
+  private readonly AUTO_SPAWN_INTERVAL = 12000; // Auto spawn interval (ms)
 
-  // Probabilità di spawn con moltiplicatori speciali (valori da 0 a 1)
+  // Spawn probability with special multipliers (values from 0 to 1)
   private readonly VELOCITY_MULTIPLIERS = [
-    { multiplier: 1, probability: 0.5 }, // 50% - velocità normale (0.8-1.2x)
-    { multiplier: 2, probability: 0.3 }, // 30% - velocità doppia
-    { multiplier: 4, probability: 0.05 }, // 5%  - velocità quadrupla
+    { multiplier: 1, probability: 0.5 }, // 50% - normal velocity (0.8-1.2x)
+    { multiplier: 2, probability: 0.3 }, // 30% - double velocity
+    { multiplier: 4, probability: 0.05 }, // 5% - quadruple velocity
   ];
 
   private readonly SIZE_MULTIPLIERS = [
-    { multiplier: 1, probability: 0.6 }, // 60% - dimensione normale (0.8-1.2x)
-    { multiplier: 3, probability: 0.1 }, // 10%  - dimensione tripla
+    { multiplier: 1, probability: 0.6 }, // 60% - normal size (0.8-1.2x)
+    { multiplier: 3, probability: 0.1 }, // 10% - triple size
   ];
 
-  private readonly SHINY_PROBABILITY = 0.05; // 5% - probabilità logo "shiny" con gradiente animato
-  private readonly DEFAULT_SPAWN_ENABLED = false; // Se lo spawn automatico è attivo di default
+  private readonly SHINY_PROBABILITY = 0.05; // 5% - probability of "shiny" logo with animated gradient
+  private readonly DEFAULT_SPAWN_ENABLED = false; // Whether auto spawn is enabled by default
 
-  // Topics da mostrare casualmente nei loghi (solo se non shiny)
+  // Topics to randomly display in logos (only if not shiny)
   private readonly TOPICS = [
     { icon: 'data-binding', title: 'Data Binding' },
     { icon: 'directives', title: 'Directives' },
@@ -59,14 +86,14 @@ export class BouncingLogo implements OnInit, OnDestroy {
   // STATE
   // ═══════════════════════════════════════════════════════════════════
   bouncingLogos = signal<BouncingLogoData[]>([]);
-  isSpawnEnabled = signal(this.DEFAULT_SPAWN_ENABLED); // Controlla se lo spawn automatico è attivo
+  isSpawnEnabled = signal(this.DEFAULT_SPAWN_ENABLED); // Controls whether auto spawn is active
   private intervalId?: number;
   private nextLogoId = 0;
 
   ngOnInit() {
-    // Avvia lo spawn automatico solo se abilitato di default
+    // Start automatic spawn only if enabled by default
     if (this.DEFAULT_SPAWN_ENABLED) {
-      this.createLogo(); // Mostra il primo logo immediatamente
+      this.createLogo(); // Show first logo immediately
       this.startAutoSpawn();
     }
   }
@@ -75,7 +102,7 @@ export class BouncingLogo implements OnInit, OnDestroy {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
-    // Cancella tutte le animazioni attive
+    // Cancel all active animations
     this.bouncingLogos().forEach((logo) => {
       if (logo.animationFrameId) {
         cancelAnimationFrame(logo.animationFrameId);
@@ -84,22 +111,22 @@ export class BouncingLogo implements OnInit, OnDestroy {
   }
 
   // ═══════════════════════════════════════════════════════════════════
-  // METODI PUBBLICI
+  // PUBLIC METHODS
   // ═══════════════════════════════════════════════════════════════════
 
   /**
-   * Gestisce il click su un logo per crearne uno nuovo dalla sua posizione
+   * Handle click on a logo to create a new one from its position
    */
   onLogoClick(logo: BouncingLogoData, event: MouseEvent) {
     event.stopPropagation();
-    // Crea un nuovo logo partendo dalla posizione del logo cliccato (centrato)
+    // Create new logo starting from clicked logo position (centered)
     const centerX = logo.left + logo.size / 2;
     const centerY = logo.top + logo.size / 2;
     this.createLogo(centerX, centerY);
   }
 
   /**
-   * Toggle per attivare/disattivare lo spawn automatico dei loghi
+   * Toggle to enable/disable automatic logo spawning
    */
   toggleSpawn() {
     this.isSpawnEnabled.update((enabled) => !enabled);
@@ -112,17 +139,21 @@ export class BouncingLogo implements OnInit, OnDestroy {
   }
 
   /**
-   * Spawna manualmente un nuovo logo in posizione casuale
+   * Manually spawn a new logo at a random position
    */
   spawnLogo() {
     this.createLogo();
   }
 
+  // ═══════════════════════════════════════════════════════════════════
+  // PRIVATE METHODS
+  // ═══════════════════════════════════════════════════════════════════
+
   /**
-   * Avvia lo spawn automatico dei loghi
+   * Start automatic logo spawning
    */
   private startAutoSpawn() {
-    if (this.intervalId) return; // Previene interval duplicati
+    if (this.intervalId) return; // Prevent duplicate intervals
 
     this.intervalId = window.setInterval(() => {
       this.createLogo();
@@ -130,7 +161,7 @@ export class BouncingLogo implements OnInit, OnDestroy {
   }
 
   /**
-   * Ferma lo spawn automatico dei loghi
+   * Stop automatic logo spawning
    */
   private stopAutoSpawn() {
     if (this.intervalId) {
@@ -139,49 +170,45 @@ export class BouncingLogo implements OnInit, OnDestroy {
     }
   }
 
-  // ═══════════════════════════════════════════════════════════════════
-  // METODI PRIVATI
-  // ═══════════════════════════════════════════════════════════════════
-
   /**
-   * Crea un nuovo logo con posizione casuale o da coordinate specificate
+   * Create a new logo with random position or from specified coordinates
    */
   private createLogo(sourceX?: number, sourceY?: number) {
-    // Determina il moltiplicatore per la dimensione in base alle probabilità
+    // Determine size multiplier based on probabilities
     const sizeMultiplier = this.getRandomMultiplier(this.SIZE_MULTIPLIERS);
-    // Dimensione con variazione casuale (0.8-1.2x) e moltiplicatore speciale
+    // Size with random variation (0.8-1.2x) and special multiplier
     let size = this.BASE_LOGO_SIZE * sizeMultiplier * (0.8 + Math.random() * 0.4);
 
-    // Limita la dimensione massima all'80% della larghezza della finestra
+    // Limit maximum size to 80% of window width
     const maxSize = window.innerWidth * 0.8;
     if (size > maxSize) {
       size = maxSize;
     }
 
-    // Se viene cliccato un logo, parte dalla sua posizione, altrimenti posizione casuale
+    // If logo is clicked, start from its position, otherwise random position
     const startTop = sourceY !== undefined ? sourceY : Math.random() * (window.innerHeight - size);
     const startLeft = sourceX !== undefined ? sourceX : Math.random() * (window.innerWidth - size);
 
-    // Determina il moltiplicatore per la velocità in base alle probabilità
+    // Determine velocity multiplier based on probabilities
     const velocityBaseMultiplier = this.getRandomMultiplier(this.VELOCITY_MULTIPLIERS);
-    // Velocità con variazione casuale (0.8-1.2x) e moltiplicatore speciale
+    // Velocity with random variation (0.8-1.2x) and special multiplier
     const velocityMultiplier = velocityBaseMultiplier * (0.8 + Math.random() * 0.4);
     const velocityX = (Math.random() > 0.5 ? 1 : -1) * this.BASE_VELOCITY * velocityMultiplier;
     const velocityY = (Math.random() > 0.5 ? 1 : -1) * this.BASE_VELOCITY * velocityMultiplier;
 
-    // Determina se il logo è "shiny" (raro 5%!)
+    // Determine if logo is "shiny" (rare 5%!)
     const isShiny = Math.random() < this.SHINY_PROBABILITY;
 
-    // Se è shiny, mostra il logo Angular shiny, altrimenti mostra sempre un topic
+    // If shiny, show shiny Angular logo, otherwise always show a topic
     let contentType: 'logo' | 'topic' = 'topic';
     let topicIcon: string | undefined;
     let topicTitle: string | undefined;
 
     if (isShiny) {
-      // 5% - Logo Angular shiny
+      // 5% - Shiny Angular logo
       contentType = 'logo';
     } else {
-      // 95% - Mostra un topic casuale
+      // 95% - Show a random topic
       const randomTopic = this.TOPICS[Math.floor(Math.random() * this.TOPICS.length)];
       topicIcon = randomTopic.icon;
       topicTitle = randomTopic.title;
@@ -200,20 +227,20 @@ export class BouncingLogo implements OnInit, OnDestroy {
       topicTitle,
     };
 
-    // Aggiungi il logo all'array
+    // Add logo to array
     this.bouncingLogos.update((logos) => [...logos, logo]);
 
-    // Avvia l'animazione per questo logo
+    // Start animation for this logo
     this.animateLogo(logo);
 
-    // Rimuovi il logo dopo X secondi
+    // Remove logo after X seconds
     setTimeout(() => {
       this.removeLogo(logo.id);
     }, this.LOGO_DURATION);
   }
 
   /**
-   * Rimuove un logo dall'array e cancella la sua animazione
+   * Remove a logo from the array and cancel its animation
    */
   private removeLogo(id: number) {
     this.bouncingLogos.update((logos) => {
@@ -226,7 +253,7 @@ export class BouncingLogo implements OnInit, OnDestroy {
   }
 
   /**
-   * Seleziona un moltiplicatore casuale in base alle probabilità configurate
+   * Select a random multiplier based on configured probabilities
    */
   private getRandomMultiplier(
     multipliers: Array<{ multiplier: number; probability: number }>
@@ -241,16 +268,16 @@ export class BouncingLogo implements OnInit, OnDestroy {
       }
     }
 
-    // Fallback al primo moltiplicatore se qualcosa va storto
+    // Fallback to first multiplier if something goes wrong
     return multipliers[0].multiplier;
   }
 
   /**
-   * Anima un singolo logo con movimento e rimbalzo sui bordi
+   * Animate a single logo with movement and edge bouncing
    */
   private animateLogo(logo: BouncingLogoData) {
     const animate = () => {
-      // Verifica se il logo esiste ancora
+      // Check if logo still exists
       const currentLogos = this.bouncingLogos();
       const currentLogo = currentLogos.find((l) => l.id === logo.id);
       if (!currentLogo) return;
@@ -258,24 +285,24 @@ export class BouncingLogo implements OnInit, OnDestroy {
       let newTop = currentLogo.top + currentLogo.velocityY;
       let newLeft = currentLogo.left + currentLogo.velocityX;
 
-      // Rimbalzo sui bordi verticali
+      // Bounce on vertical edges
       if (newTop <= 0 || newTop >= window.innerHeight - currentLogo.size) {
         currentLogo.velocityY *= -1;
         newTop = newTop <= 0 ? 0 : window.innerHeight - currentLogo.size;
       }
 
-      // Rimbalzo sui bordi orizzontali
+      // Bounce on horizontal edges
       if (newLeft <= 0 || newLeft >= window.innerWidth - currentLogo.size) {
         currentLogo.velocityX *= -1;
         newLeft = newLeft <= 0 ? 0 : window.innerWidth - currentLogo.size;
       }
 
-      // Aggiorna la posizione del logo
+      // Update logo position
       this.bouncingLogos.update((logos) =>
         logos.map((l) => (l.id === logo.id ? { ...l, top: newTop, left: newLeft } : l))
       );
 
-      // Continua l'animazione
+      // Continue animation
       currentLogo.animationFrameId = requestAnimationFrame(animate);
     };
 
